@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface IScoreboardCriteria {
 
-    Map criteria = Maps.newHashMap();
+    Map<String, IScoreboardCriteria> criteria = Maps.newHashMap();
     IScoreboardCriteria b = new ScoreboardBaseCriteria("dummy");
     IScoreboardCriteria c = new ScoreboardBaseCriteria("trigger");
     IScoreboardCriteria d = new ScoreboardBaseCriteria("deathCount");
@@ -18,9 +18,43 @@ public interface IScoreboardCriteria {
 
     String getName();
 
-    int getScoreModifier(List list);
+    int getScoreModifier(List<EntityHuman> list);
 
     boolean isReadOnly();
 
-    EnumScoreboardHealthDisplay c();
+    IScoreboardCriteria.a c();
+
+    public static enum a {
+
+        INTEGER("integer"), HEARTS("hearts");
+
+        private static final Map<String, IScoreboardCriteria.a> c = Maps.newHashMap();
+        private final String d;
+
+        private a(String s) {
+            this.d = s;
+        }
+
+        public String a() {
+            return this.d;
+        }
+
+        public static IScoreboardCriteria.a a(String s) {
+            IScoreboardCriteria.a iscoreboardcriteria_a = (IScoreboardCriteria.a) IScoreboardCriteria.a.c.get(s);
+
+            return iscoreboardcriteria_a == null ? IScoreboardCriteria.a.INTEGER : iscoreboardcriteria_a;
+        }
+
+        static {
+            IScoreboardCriteria.a[] aiscoreboardcriteria_a = values();
+            int i = aiscoreboardcriteria_a.length;
+
+            for (int j = 0; j < i; ++j) {
+                IScoreboardCriteria.a iscoreboardcriteria_a = aiscoreboardcriteria_a[j];
+
+                IScoreboardCriteria.a.c.put(iscoreboardcriteria_a.a(), iscoreboardcriteria_a);
+            }
+
+        }
+    }
 }

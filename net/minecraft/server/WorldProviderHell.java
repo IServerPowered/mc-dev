@@ -2,6 +2,8 @@ package net.minecraft.server;
 
 public class WorldProviderHell extends WorldProvider {
 
+    public WorldProviderHell() {}
+
     public void b() {
         this.c = new WorldChunkManagerHell(BiomeBase.HELL, 0.0F);
         this.d = true;
@@ -49,6 +51,14 @@ public class WorldProviderHell extends WorldProvider {
     }
 
     public WorldBorder getWorldBorder() {
-        return new WorldBorderHell(this);
+        return new WorldBorder() {
+            public double getCenterX() {
+                return super.getCenterX() / 8.0D;
+            }
+
+            public double getCenterZ() {
+                return super.getCenterZ() / 8.0D;
+            }
+        };
     }
 }

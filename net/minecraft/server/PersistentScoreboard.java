@@ -64,19 +64,19 @@ public class PersistentScoreboard extends PersistentBase {
                 scoreboardteam.setCanSeeFriendlyInvisibles(nbttagcompound.getBoolean("SeeFriendlyInvisibles"));
             }
 
-            EnumNameTagVisibility enumnametagvisibility;
+            ScoreboardTeamBase.a scoreboardteambase_a;
 
             if (nbttagcompound.hasKeyOfType("NameTagVisibility", 8)) {
-                enumnametagvisibility = EnumNameTagVisibility.a(nbttagcompound.getString("NameTagVisibility"));
-                if (enumnametagvisibility != null) {
-                    scoreboardteam.a(enumnametagvisibility);
+                scoreboardteambase_a = ScoreboardTeamBase.a.a(nbttagcompound.getString("NameTagVisibility"));
+                if (scoreboardteambase_a != null) {
+                    scoreboardteam.setNameTagVisibility(scoreboardteambase_a);
                 }
             }
 
             if (nbttagcompound.hasKeyOfType("DeathMessageVisibility", 8)) {
-                enumnametagvisibility = EnumNameTagVisibility.a(nbttagcompound.getString("DeathMessageVisibility"));
-                if (enumnametagvisibility != null) {
-                    scoreboardteam.b(enumnametagvisibility);
+                scoreboardteambase_a = ScoreboardTeamBase.a.a(nbttagcompound.getString("DeathMessageVisibility"));
+                if (scoreboardteambase_a != null) {
+                    scoreboardteam.b(scoreboardteambase_a);
                 }
             }
 
@@ -113,7 +113,7 @@ public class PersistentScoreboard extends PersistentBase {
                 ScoreboardObjective scoreboardobjective = this.c.registerObjective(nbttagcompound.getString("Name"), iscoreboardcriteria);
 
                 scoreboardobjective.setDisplayName(nbttagcompound.getString("DisplayName"));
-                scoreboardobjective.a(EnumScoreboardHealthDisplay.a(nbttagcompound.getString("RenderType")));
+                scoreboardobjective.a(IScoreboardCriteria.a.a(nbttagcompound.getString("RenderType")));
             }
         }
 
@@ -163,7 +163,7 @@ public class PersistentScoreboard extends PersistentBase {
             nbttagcompound.setString("Suffix", scoreboardteam.getSuffix());
             nbttagcompound.setBoolean("AllowFriendlyFire", scoreboardteam.allowFriendlyFire());
             nbttagcompound.setBoolean("SeeFriendlyInvisibles", scoreboardteam.canSeeFriendlyInvisibles());
-            nbttagcompound.setString("NameTagVisibility", scoreboardteam.i().e);
+            nbttagcompound.setString("NameTagVisibility", scoreboardteam.getNameTagVisibility().e);
             nbttagcompound.setString("DeathMessageVisibility", scoreboardteam.j().e);
             NBTTagList nbttaglist1 = new NBTTagList();
             Iterator iterator1 = scoreboardteam.getPlayerNameSet().iterator();

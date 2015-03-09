@@ -9,7 +9,9 @@ import java.util.List;
 
 public class PacketSplitter extends ByteToMessageDecoder {
 
-    protected void decode(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf, List list) {
+    public PacketSplitter() {}
+
+    protected void decode(ChannelHandlerContext channelhandlercontext, ByteBuf bytebuf, List<Object> list) throws Exception {
         bytebuf.markReaderIndex();
         byte[] abyte = new byte[3];
 

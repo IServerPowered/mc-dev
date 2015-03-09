@@ -1,6 +1,6 @@
 package net.minecraft.server;
 
-public class WeightedRandomEnchant extends WeightedRandomChoice {
+public class WeightedRandomEnchant extends WeightedRandom.a {
 
     public final Enchantment enchantment;
     public final int level;

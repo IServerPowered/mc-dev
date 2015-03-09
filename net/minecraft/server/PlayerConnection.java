@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
     private long k;
     private int chatThrottle;
     private int m;
-    private IntHashMap n = new IntHashMap();
+    private IntHashMap<Short> n = new IntHashMap();
     private double o;
     private double p;
     private double q;
@@ -66,7 +67,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
             --this.m;
         }
 
-        if (this.player.D() > 0L && this.minecraftServer.getIdleTimeout() > 0 && MinecraftServer.ax() - this.player.D() > (long) (this.minecraftServer.getIdleTimeout() * 1000 * 60)) {
+        if (this.player.D() > 0L && this.minecraftServer.getIdleTimeout() > 0 && MinecraftServer.ay() - this.player.D() > (long) (this.minecraftServer.getIdleTimeout() * 1000 * 60)) {
             this.disconnect("You have been idle for too long!");
         }
 
@@ -77,11 +78,19 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
     }
 
     public void disconnect(String s) {
-        ChatComponentText chatcomponenttext = new ChatComponentText(s);
+        final ChatComponentText chatcomponenttext = new ChatComponentText(s);
 
-        this.networkManager.a(new PacketPlayOutKickDisconnect(chatcomponenttext), new PlayerConnectionFuture(this, chatcomponenttext), new GenericFutureListener[0]);
+        this.networkManager.a(new PacketPlayOutKickDisconnect(chatcomponenttext), new GenericFutureListener() {
+            public void operationComplete(Future<? super Void> future) throws Exception {
+                PlayerConnection.this.networkManager.close(chatcomponenttext);
+            }
+        }, new GenericFutureListener[0]);
         this.networkManager.k();
-        Futures.getUnchecked(this.minecraftServer.postToMainThread(new PlayerConnectionDisconnector(this)));
+        Futures.getUnchecked(this.minecraftServer.postToMainThread(new Runnable() {
+            public void run() {
+                PlayerConnection.this.networkManager.l();
+            }
+        }));
     }
 
     public void a(PacketPlayInSteerVehicle packetplayinsteervehicle) {
@@ -219,7 +228,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
                 boolean flag = worldserver.getCubes(this.player, this.player.getBoundingBox().shrink((double) f4, (double) f4, (double) f4)).isEmpty();
 
                 if (this.player.onGround && !packetplayinflying.f() && d12 > 0.0D) {
-                    this.player.bE();
+                    this.player.bF();
                 }
 
                 this.player.move(d11, d12, d13);
@@ -243,7 +252,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
                 this.player.setLocation(d7, d8, d9, f2, f3);
                 this.player.checkMovement(this.player.locX - d0, this.player.locY - d1, this.player.locZ - d2);
-                if (!this.player.T) {
+                if (!this.player.noclip) {
                     boolean flag2 = worldserver.getCubes(this.player, this.player.getBoundingBox().shrink((double) f4, (double) f4, (double) f4)).isEmpty();
 
                     if (flag && (flag1 || !flag2) && !this.player.isSleeping()) {
@@ -281,31 +290,31 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
         this.a(d0, d1, d2, f, f1, Collections.emptySet());
     }
 
-    public void a(double d0, double d1, double d2, float f, float f1, Set set) {
+    public void a(double d0, double d1, double d2, float f, float f1, Set<PacketPlayOutPosition.a> set) {
         this.checkMovement = false;
         this.o = d0;
         this.p = d1;
         this.q = d2;
-        if (set.contains(EnumPlayerTeleportFlags.X)) {
+        if (set.contains(PacketPlayOutPosition.a.X)) {
             this.o += this.player.locX;
         }
 
-        if (set.contains(EnumPlayerTeleportFlags.Y)) {
+        if (set.contains(PacketPlayOutPosition.a.Y)) {
             this.p += this.player.locY;
         }
 
-        if (set.contains(EnumPlayerTeleportFlags.Z)) {
+        if (set.contains(PacketPlayOutPosition.a.Z)) {
             this.q += this.player.locZ;
         }
 
         float f2 = f;
         float f3 = f1;
 
-        if (set.contains(EnumPlayerTeleportFlags.Y_ROT)) {
+        if (set.contains(PacketPlayOutPosition.a.Y_ROT)) {
             f2 = f + this.player.yaw;
         }
 
-        if (set.contains(EnumPlayerTeleportFlags.X_ROT)) {
+        if (set.contains(PacketPlayOutPosition.a.X_ROT)) {
             f3 = f1 + this.player.pitch;
         }
 
@@ -319,7 +328,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
         BlockPosition blockposition = packetplayinblockdig.a();
 
         this.player.z();
-        switch (SwitchHelperCommandActionType.a[packetplayinblockdig.c().ordinal()]) {
+        switch (PlayerConnection.SyntheticClass_1.a[packetplayinblockdig.c().ordinal()]) {
         case 1:
             if (!this.player.v()) {
                 this.player.a(false);
@@ -335,7 +344,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
             return;
 
         case 3:
-            this.player.bT();
+            this.player.bU();
             return;
 
         case 4:
@@ -351,16 +360,16 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
             } else if (blockposition.getY() >= this.minecraftServer.getMaxBuildHeight()) {
                 return;
             } else {
-                if (packetplayinblockdig.c() == EnumPlayerDigType.START_DESTROY_BLOCK) {
-                    if (!this.minecraftServer.a(worldserver, blockposition, this.player) && worldserver.af().a(blockposition)) {
+                if (packetplayinblockdig.c() == PacketPlayInBlockDig.a.START_DESTROY_BLOCK) {
+                    if (!this.minecraftServer.a(worldserver, blockposition, this.player) && worldserver.getWorldBorder().a(blockposition)) {
                         this.player.playerInteractManager.a(blockposition, packetplayinblockdig.b());
                     } else {
                         this.player.playerConnection.sendPacket(new PacketPlayOutBlockChange(worldserver, blockposition));
                     }
                 } else {
-                    if (packetplayinblockdig.c() == EnumPlayerDigType.STOP_DESTROY_BLOCK) {
+                    if (packetplayinblockdig.c() == PacketPlayInBlockDig.a.STOP_DESTROY_BLOCK) {
                         this.player.playerInteractManager.a(blockposition);
-                    } else if (packetplayinblockdig.c() == EnumPlayerDigType.ABORT_DESTROY_BLOCK) {
+                    } else if (packetplayinblockdig.c() == PacketPlayInBlockDig.a.ABORT_DESTROY_BLOCK) {
                         this.player.playerInteractManager.e();
                     }
 
@@ -399,7 +408,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
             this.player.playerConnection.sendPacket(new PacketPlayOutChat(chatmessage));
             flag = true;
         } else {
-            if (this.checkMovement && this.player.e((double) blockposition.getX() + 0.5D, (double) blockposition.getY() + 0.5D, (double) blockposition.getZ() + 0.5D) < 64.0D && !this.minecraftServer.a(worldserver, blockposition, this.player) && worldserver.af().a(blockposition)) {
+            if (this.checkMovement && this.player.e((double) blockposition.getX() + 0.5D, (double) blockposition.getY() + 0.5D, (double) blockposition.getZ() + 0.5D) < 64.0D && !this.minecraftServer.a(worldserver, blockposition, this.player) && worldserver.getWorldBorder().a(blockposition)) {
                 this.player.playerInteractManager.interact(this.player, worldserver, itemstack, blockposition, enumdirection, packetplayinblockplace.d(), packetplayinblockplace.e(), packetplayinblockplace.f());
             }
 
@@ -485,7 +494,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
     public void a(IChatBaseComponent ichatbasecomponent) {
         PlayerConnection.c.info(this.player.getName() + " lost connection: " + ichatbasecomponent);
-        this.minecraftServer.aF();
+        this.minecraftServer.aG();
         ChatMessage chatmessage = new ChatMessage("multiplayer.player.left", new Object[] { this.player.getScoreboardDisplayName()});
 
         chatmessage.getChatModifier().setColor(EnumChatFormat.YELLOW);
@@ -499,16 +508,16 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
     }
 
-    public void sendPacket(Packet packet) {
+    public void sendPacket(final Packet packet) {
         if (packet instanceof PacketPlayOutChat) {
             PacketPlayOutChat packetplayoutchat = (PacketPlayOutChat) packet;
-            EnumChatVisibility enumchatvisibility = this.player.getChatFlags();
+            EntityHuman.b entityhuman_b = this.player.getChatFlags();
 
-            if (enumchatvisibility == EnumChatVisibility.HIDDEN) {
+            if (entityhuman_b == EntityHuman.b.HIDDEN) {
                 return;
             }
 
-            if (enumchatvisibility == EnumChatVisibility.SYSTEM && !packetplayoutchat.b()) {
+            if (entityhuman_b == EntityHuman.b.SYSTEM && !packetplayoutchat.b()) {
                 return;
             }
         }
@@ -519,7 +528,15 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
             CrashReport crashreport = CrashReport.a(throwable, "Sending packet");
             CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Packet being sent");
 
-            crashreportsystemdetails.a("Packet class", (Callable) (new CrashReportPacketName(this, packet)));
+            crashreportsystemdetails.a("Packet class", new Callable() {
+                public String a() throws Exception {
+                    return packet.getClass().getCanonicalName();
+                }
+
+                public Object call() throws Exception {
+                    return this.a();
+                }
+            });
             throw new ReportedException(crashreport);
         }
     }
@@ -536,7 +553,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
     public void a(PacketPlayInChat packetplayinchat) {
         PlayerConnectionUtils.ensureMainThread(packetplayinchat, this, this.player.u());
-        if (this.player.getChatFlags() == EnumChatVisibility.HIDDEN) {
+        if (this.player.getChatFlags() == EntityHuman.b.HIDDEN) {
             ChatMessage chatmessage = new ChatMessage("chat.cannotSend", new Object[0]);
 
             chatmessage.getChatModifier().setColor(EnumChatFormat.RED);
@@ -577,13 +594,13 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
     public void a(PacketPlayInArmAnimation packetplayinarmanimation) {
         PlayerConnectionUtils.ensureMainThread(packetplayinarmanimation, this, this.player.u());
         this.player.z();
-        this.player.bv();
+        this.player.bw();
     }
 
     public void a(PacketPlayInEntityAction packetplayinentityaction) {
         PlayerConnectionUtils.ensureMainThread(packetplayinentityaction, this, this.player.u());
         this.player.z();
-        switch (SwitchHelperCommandActionType.b[packetplayinentityaction.b().ordinal()]) {
+        switch (PlayerConnection.SyntheticClass_1.b[packetplayinentityaction.b().ordinal()]) {
         case 1:
             this.player.setSneaking(true);
             break;
@@ -638,11 +655,11 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
             }
 
             if (this.player.h(entity) < d0) {
-                if (packetplayinuseentity.a() == EnumEntityUseAction.INTERACT) {
+                if (packetplayinuseentity.a() == PacketPlayInUseEntity.a.INTERACT) {
                     this.player.u(entity);
-                } else if (packetplayinuseentity.a() == EnumEntityUseAction.INTERACT_AT) {
+                } else if (packetplayinuseentity.a() == PacketPlayInUseEntity.a.INTERACT_AT) {
                     entity.a((EntityHuman) this.player, packetplayinuseentity.b());
-                } else if (packetplayinuseentity.a() == EnumEntityUseAction.ATTACK) {
+                } else if (packetplayinuseentity.a() == PacketPlayInUseEntity.a.ATTACK) {
                     if (entity instanceof EntityItem || entity instanceof EntityExperienceOrb || entity instanceof EntityArrow || entity == this.player) {
                         this.disconnect("Attempting to attack an invalid entity");
                         this.minecraftServer.warning("Player " + this.player.getName() + " tried to attack an invalid entity");
@@ -659,9 +676,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
     public void a(PacketPlayInClientCommand packetplayinclientcommand) {
         PlayerConnectionUtils.ensureMainThread(packetplayinclientcommand, this, this.player.u());
         this.player.z();
-        EnumClientCommand enumclientcommand = packetplayinclientcommand.a();
+        PacketPlayInClientCommand.a packetplayinclientcommand_a = packetplayinclientcommand.a();
 
-        switch (SwitchHelperCommandActionType.c[enumclientcommand.ordinal()]) {
+        switch (PlayerConnection.SyntheticClass_1.c[packetplayinclientcommand_a.ordinal()]) {
         case 1:
             if (this.player.viewingCredits) {
                 this.player = this.minecraftServer.getPlayerList().moveToWorld(this.player, 0, true);
@@ -826,7 +843,12 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
                 return;
             }
 
-            System.arraycopy(packetplayinupdatesign.b(), 0, tileentitysign.lines, 0, 4);
+            IChatBaseComponent[] aichatbasecomponent = packetplayinupdatesign.b();
+
+            for (int i = 0; i < aichatbasecomponent.length; ++i) {
+                tileentitysign.lines[i] = new ChatComponentText(aichatbasecomponent[i].c());
+            }
+
             tileentitysign.update();
             worldserver.notify(blockposition);
         }
@@ -1028,5 +1050,115 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
             }
         }
 
+    }
+
+    static class SyntheticClass_1 {
+
+        static final int[] a;
+        static final int[] b;
+        static final int[] c = new int[PacketPlayInClientCommand.a.values().length];
+
+        static {
+            try {
+                PlayerConnection.SyntheticClass_1.c[PacketPlayInClientCommand.a.PERFORM_RESPAWN.ordinal()] = 1;
+            } catch (NoSuchFieldError nosuchfielderror) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.c[PacketPlayInClientCommand.a.REQUEST_STATS.ordinal()] = 2;
+            } catch (NoSuchFieldError nosuchfielderror1) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.c[PacketPlayInClientCommand.a.OPEN_INVENTORY_ACHIEVEMENT.ordinal()] = 3;
+            } catch (NoSuchFieldError nosuchfielderror2) {
+                ;
+            }
+
+            b = new int[PacketPlayInEntityAction.a.values().length];
+
+            try {
+                PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.a.START_SNEAKING.ordinal()] = 1;
+            } catch (NoSuchFieldError nosuchfielderror3) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.a.STOP_SNEAKING.ordinal()] = 2;
+            } catch (NoSuchFieldError nosuchfielderror4) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.a.START_SPRINTING.ordinal()] = 3;
+            } catch (NoSuchFieldError nosuchfielderror5) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.a.STOP_SPRINTING.ordinal()] = 4;
+            } catch (NoSuchFieldError nosuchfielderror6) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.a.STOP_SLEEPING.ordinal()] = 5;
+            } catch (NoSuchFieldError nosuchfielderror7) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.a.RIDING_JUMP.ordinal()] = 6;
+            } catch (NoSuchFieldError nosuchfielderror8) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.a.OPEN_INVENTORY.ordinal()] = 7;
+            } catch (NoSuchFieldError nosuchfielderror9) {
+                ;
+            }
+
+            a = new int[PacketPlayInBlockDig.a.values().length];
+
+            try {
+                PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.a.DROP_ITEM.ordinal()] = 1;
+            } catch (NoSuchFieldError nosuchfielderror10) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.a.DROP_ALL_ITEMS.ordinal()] = 2;
+            } catch (NoSuchFieldError nosuchfielderror11) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.a.RELEASE_USE_ITEM.ordinal()] = 3;
+            } catch (NoSuchFieldError nosuchfielderror12) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.a.START_DESTROY_BLOCK.ordinal()] = 4;
+            } catch (NoSuchFieldError nosuchfielderror13) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.a.ABORT_DESTROY_BLOCK.ordinal()] = 5;
+            } catch (NoSuchFieldError nosuchfielderror14) {
+                ;
+            }
+
+            try {
+                PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.a.STOP_DESTROY_BLOCK.ordinal()] = 6;
+            } catch (NoSuchFieldError nosuchfielderror15) {
+                ;
+            }
+
+        }
     }
 }

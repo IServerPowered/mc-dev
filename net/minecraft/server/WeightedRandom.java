@@ -6,19 +6,19 @@ import java.util.Random;
 
 public class WeightedRandom {
 
-    public static int a(Collection collection) {
+    public static int a(Collection<? extends WeightedRandom.a> collection) {
         int i = 0;
 
-        WeightedRandomChoice weightedrandomchoice;
+        WeightedRandom.a weightedrandom_a;
 
-        for (Iterator iterator = collection.iterator(); iterator.hasNext(); i += weightedrandomchoice.a) {
-            weightedrandomchoice = (WeightedRandomChoice) iterator.next();
+        for (Iterator iterator = collection.iterator(); iterator.hasNext(); i += weightedrandom_a.a) {
+            weightedrandom_a = (WeightedRandom.a) iterator.next();
         }
 
         return i;
     }
 
-    public static WeightedRandomChoice a(Random random, Collection collection, int i) {
+    public static <T extends WeightedRandom.a> T a(Random random, Collection<T> collection, int i) {
         if (i <= 0) {
             throw new IllegalArgumentException();
         } else {
@@ -28,24 +28,33 @@ public class WeightedRandom {
         }
     }
 
-    public static WeightedRandomChoice a(Collection collection, int i) {
+    public static <T extends WeightedRandom.a> T a(Collection<T> collection, int i) {
         Iterator iterator = collection.iterator();
 
-        WeightedRandomChoice weightedrandomchoice;
+        WeightedRandom.a weightedrandom_a;
 
         do {
             if (!iterator.hasNext()) {
                 return null;
             }
 
-            weightedrandomchoice = (WeightedRandomChoice) iterator.next();
-            i -= weightedrandomchoice.a;
+            weightedrandom_a = (WeightedRandom.a) iterator.next();
+            i -= weightedrandom_a.a;
         } while (i >= 0);
 
-        return weightedrandomchoice;
+        return weightedrandom_a;
     }
 
-    public static WeightedRandomChoice a(Random random, Collection collection) {
+    public static <T extends WeightedRandom.a> T a(Random random, Collection<T> collection) {
         return a(random, collection, a(collection));
+    }
+
+    public static class a {
+
+        protected int a;
+
+        public a(int i) {
+            this.a = i;
+        }
     }
 }

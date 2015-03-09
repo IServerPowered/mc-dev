@@ -1,20 +1,22 @@
 package net.minecraft.server;
 
-public class PacketPlayInClientCommand implements Packet {
+import java.io.IOException;
 
-    private EnumClientCommand a;
+public class PacketPlayInClientCommand implements Packet<PacketListenerPlayIn> {
+
+    private PacketPlayInClientCommand.a a;
 
     public PacketPlayInClientCommand() {}
 
-    public PacketPlayInClientCommand(EnumClientCommand enumclientcommand) {
-        this.a = enumclientcommand;
+    public PacketPlayInClientCommand(PacketPlayInClientCommand.a packetplayinclientcommand_a) {
+        this.a = packetplayinclientcommand_a;
     }
 
-    public void a(PacketDataSerializer packetdataserializer) {
-        this.a = (EnumClientCommand) packetdataserializer.a(EnumClientCommand.class);
+    public void a(PacketDataSerializer packetdataserializer) throws IOException {
+        this.a = (PacketPlayInClientCommand.a) packetdataserializer.a(PacketPlayInClientCommand.a.class);
     }
 
-    public void b(PacketDataSerializer packetdataserializer) {
+    public void b(PacketDataSerializer packetdataserializer) throws IOException {
         packetdataserializer.a((Enum) this.a);
     }
 
@@ -22,7 +24,18 @@ public class PacketPlayInClientCommand implements Packet {
         packetlistenerplayin.a(this);
     }
 
-    public EnumClientCommand a() {
+    public PacketPlayInClientCommand.a a() {
         return this.a;
+    }
+
+    public void a(PacketListener packetlistener) {
+        this.a((PacketListenerPlayIn) packetlistener);
+    }
+
+    public static enum a {
+
+        PERFORM_RESPAWN, REQUEST_STATS, OPEN_INVENTORY_ACHIEVEMENT;
+
+        private a() {}
     }
 }

@@ -13,6 +13,8 @@ public abstract class WorldProvider {
     protected int dimension;
     private final float[] j = new float[4];
 
+    public WorldProvider() {}
+
     public final void a(World world) {
         this.b = world;
         this.type = world.getWorldData().getType();
@@ -95,7 +97,7 @@ public abstract class WorldProvider {
     }
 
     public int getSeaLevel() {
-        return this.type == WorldType.FLAT ? 4 : 64;
+        return this.type == WorldType.FLAT ? 4 : this.b.F() + 1;
     }
 
     public abstract String getName();

@@ -1,6 +1,8 @@
 package net.minecraft.server;
 
-public class PacketPlayInFlying implements Packet {
+import java.io.IOException;
+
+public class PacketPlayInFlying implements Packet<PacketListenerPlayIn> {
 
     protected double x;
     protected double y;
@@ -11,15 +13,17 @@ public class PacketPlayInFlying implements Packet {
     protected boolean hasPos;
     protected boolean hasLook;
 
+    public PacketPlayInFlying() {}
+
     public void a(PacketListenerPlayIn packetlistenerplayin) {
         packetlistenerplayin.a(this);
     }
 
-    public void a(PacketDataSerializer packetdataserializer) {
+    public void a(PacketDataSerializer packetdataserializer) throws IOException {
         this.f = packetdataserializer.readUnsignedByte() != 0;
     }
 
-    public void b(PacketDataSerializer packetdataserializer) {
+    public void b(PacketDataSerializer packetdataserializer) throws IOException {
         packetdataserializer.writeByte(this.f ? 1 : 0);
     }
 
@@ -57,5 +61,87 @@ public class PacketPlayInFlying implements Packet {
 
     public void a(boolean flag) {
         this.hasPos = flag;
+    }
+
+    public void a(PacketListener packetlistener) {
+        this.a((PacketListenerPlayIn) packetlistener);
+    }
+
+    public static class c extends PacketPlayInFlying {
+
+        public c() {
+            this.hasLook = true;
+        }
+
+        public void a(PacketDataSerializer packetdataserializer) throws IOException {
+            this.yaw = packetdataserializer.readFloat();
+            this.pitch = packetdataserializer.readFloat();
+            super.a(packetdataserializer);
+        }
+
+        public void b(PacketDataSerializer packetdataserializer) throws IOException {
+            packetdataserializer.writeFloat(this.yaw);
+            packetdataserializer.writeFloat(this.pitch);
+            super.b(packetdataserializer);
+        }
+
+        public void a(PacketListener packetlistener) {
+            super.a((PacketListenerPlayIn) packetlistener);
+        }
+    }
+
+    public static class a extends PacketPlayInFlying {
+
+        public a() {
+            this.hasPos = true;
+        }
+
+        public void a(PacketDataSerializer packetdataserializer) throws IOException {
+            this.x = packetdataserializer.readDouble();
+            this.y = packetdataserializer.readDouble();
+            this.z = packetdataserializer.readDouble();
+            super.a(packetdataserializer);
+        }
+
+        public void b(PacketDataSerializer packetdataserializer) throws IOException {
+            packetdataserializer.writeDouble(this.x);
+            packetdataserializer.writeDouble(this.y);
+            packetdataserializer.writeDouble(this.z);
+            super.b(packetdataserializer);
+        }
+
+        public void a(PacketListener packetlistener) {
+            super.a((PacketListenerPlayIn) packetlistener);
+        }
+    }
+
+    public static class b extends PacketPlayInFlying {
+
+        public b() {
+            this.hasPos = true;
+            this.hasLook = true;
+        }
+
+        public void a(PacketDataSerializer packetdataserializer) throws IOException {
+            this.x = packetdataserializer.readDouble();
+            this.y = packetdataserializer.readDouble();
+            this.z = packetdataserializer.readDouble();
+            this.yaw = packetdataserializer.readFloat();
+            this.pitch = packetdataserializer.readFloat();
+            super.a(packetdataserializer);
+        }
+
+        public void b(PacketDataSerializer packetdataserializer) throws IOException {
+            packetdataserializer.writeDouble(this.x);
+            packetdataserializer.writeDouble(this.y);
+            packetdataserializer.writeDouble(this.z);
+            packetdataserializer.writeFloat(this.yaw);
+            packetdataserializer.writeFloat(this.pitch);
+            super.b(packetdataserializer);
+        }
+
+        public void a(PacketListener packetlistener) {
+            super.a((PacketListenerPlayIn) packetlistener);
+        }
     }
 }

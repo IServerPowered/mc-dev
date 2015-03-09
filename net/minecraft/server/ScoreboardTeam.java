@@ -8,19 +8,19 @@ public class ScoreboardTeam extends ScoreboardTeamBase {
 
     private final Scoreboard a;
     private final String b;
-    private final Set c = Sets.newHashSet();
+    private final Set<String> c = Sets.newHashSet();
     private String d;
     private String e = "";
     private String f = "";
     private boolean g = true;
     private boolean h = true;
-    private EnumNameTagVisibility i;
-    private EnumNameTagVisibility j;
+    private ScoreboardTeamBase.a i;
+    private ScoreboardTeamBase.a j;
     private EnumChatFormat k;
 
     public ScoreboardTeam(Scoreboard scoreboard, String s) {
-        this.i = EnumNameTagVisibility.ALWAYS;
-        this.j = EnumNameTagVisibility.ALWAYS;
+        this.i = ScoreboardTeamBase.a.ALWAYS;
+        this.j = ScoreboardTeamBase.a.ALWAYS;
         this.k = EnumChatFormat.RESET;
         this.a = scoreboard;
         this.b = s;
@@ -44,7 +44,7 @@ public class ScoreboardTeam extends ScoreboardTeamBase {
         }
     }
 
-    public Collection getPlayerNameSet() {
+    public Collection<String> getPlayerNameSet() {
         return this.c;
     }
 
@@ -96,21 +96,21 @@ public class ScoreboardTeam extends ScoreboardTeamBase {
         this.a.handleTeamChanged(this);
     }
 
-    public EnumNameTagVisibility i() {
+    public ScoreboardTeamBase.a getNameTagVisibility() {
         return this.i;
     }
 
-    public EnumNameTagVisibility j() {
+    public ScoreboardTeamBase.a j() {
         return this.j;
     }
 
-    public void a(EnumNameTagVisibility enumnametagvisibility) {
-        this.i = enumnametagvisibility;
+    public void setNameTagVisibility(ScoreboardTeamBase.a scoreboardteambase_a) {
+        this.i = scoreboardteambase_a;
         this.a.handleTeamChanged(this);
     }
 
-    public void b(EnumNameTagVisibility enumnametagvisibility) {
-        this.j = enumnametagvisibility;
+    public void b(ScoreboardTeamBase.a scoreboardteambase_a) {
+        this.j = scoreboardteambase_a;
         this.a.handleTeamChanged(this);
     }
 

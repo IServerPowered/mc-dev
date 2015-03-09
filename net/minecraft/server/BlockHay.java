@@ -3,31 +3,31 @@ package net.minecraft.server;
 public class BlockHay extends BlockRotatable {
 
     public BlockHay() {
-        super(Material.GRASS);
-        this.j(this.blockStateList.getBlockData().set(BlockHay.AXIS, EnumAxis.Y));
+        super(Material.GRASS, MaterialMapColor.t);
+        this.j(this.blockStateList.getBlockData().set(BlockHay.AXIS, EnumDirection.a.Y));
         this.a(CreativeModeTab.b);
     }
 
     public IBlockData fromLegacyData(int i) {
-        EnumAxis enumaxis = EnumAxis.Y;
+        EnumDirection.a enumdirection_a = EnumDirection.a.Y;
         int j = i & 12;
 
         if (j == 4) {
-            enumaxis = EnumAxis.X;
+            enumdirection_a = EnumDirection.a.X;
         } else if (j == 8) {
-            enumaxis = EnumAxis.Z;
+            enumdirection_a = EnumDirection.a.Z;
         }
 
-        return this.getBlockData().set(BlockHay.AXIS, enumaxis);
+        return this.getBlockData().set(BlockHay.AXIS, enumdirection_a);
     }
 
     public int toLegacyData(IBlockData iblockdata) {
         int i = 0;
-        EnumAxis enumaxis = (EnumAxis) iblockdata.get(BlockHay.AXIS);
+        EnumDirection.a enumdirection_a = (EnumDirection.a) iblockdata.get(BlockHay.AXIS);
 
-        if (enumaxis == EnumAxis.X) {
+        if (enumdirection_a == EnumDirection.a.X) {
             i |= 4;
-        } else if (enumaxis == EnumAxis.Z) {
+        } else if (enumdirection_a == EnumDirection.a.Z) {
             i |= 8;
         }
 

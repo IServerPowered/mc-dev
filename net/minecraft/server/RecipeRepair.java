@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class RecipeRepair implements IRecipe {
 
+    public RecipeRepair() {}
+
     public boolean a(InventoryCrafting inventorycrafting, World world) {
         ArrayList arraylist = Lists.newArrayList();
 

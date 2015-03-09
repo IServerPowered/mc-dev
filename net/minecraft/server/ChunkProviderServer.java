@@ -2,6 +2,7 @@ package net.minecraft.server;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -13,13 +14,13 @@ import org.apache.logging.log4j.Logger;
 public class ChunkProviderServer implements IChunkProvider {
 
     private static final Logger b = LogManager.getLogger();
-    private Set unloadQueue = Collections.newSetFromMap(new ConcurrentHashMap());
+    private Set<Long> unloadQueue = Collections.newSetFromMap(new ConcurrentHashMap());
     private Chunk emptyChunk;
     private IChunkProvider chunkProvider;
     private IChunkLoader chunkLoader;
     public boolean forceChunkLoad = true;
-    private LongHashMap chunks = new LongHashMap();
-    private List chunkList = Lists.newArrayList();
+    private LongHashMap<Chunk> chunks = new LongHashMap();
+    private List<Chunk> chunkList = Lists.newArrayList();
     private WorldServer world;
 
     public ChunkProviderServer(WorldServer worldserver, IChunkLoader ichunkloader, IChunkProvider ichunkprovider) {
@@ -33,7 +34,7 @@ public class ChunkProviderServer implements IChunkProvider {
         return this.chunks.contains(ChunkCoordIntPair.a(i, j));
     }
 
-    public List a() {
+    public List<Chunk> a() {
         return this.chunkList;
     }
 
@@ -173,9 +174,10 @@ public class ChunkProviderServer implements IChunkProvider {
 
     public boolean saveChunks(boolean flag, IProgressUpdate iprogressupdate) {
         int i = 0;
+        ArrayList arraylist = Lists.newArrayList((Iterable) this.chunkList);
 
-        for (int j = 0; j < this.chunkList.size(); ++j) {
-            Chunk chunk = (Chunk) this.chunkList.get(j);
+        for (int j = 0; j < arraylist.size(); ++j) {
+            Chunk chunk = (Chunk) arraylist.get(j);
 
             if (flag) {
                 this.saveChunkNOP(chunk);
@@ -236,7 +238,7 @@ public class ChunkProviderServer implements IChunkProvider {
         return "ServerChunkCache: " + this.chunks.count() + " Drop: " + this.unloadQueue.size();
     }
 
-    public List getMobsFor(EnumCreatureType enumcreaturetype, BlockPosition blockposition) {
+    public List<BiomeBase.c> getMobsFor(EnumCreatureType enumcreaturetype, BlockPosition blockposition) {
         return this.chunkProvider.getMobsFor(enumcreaturetype, blockposition);
     }
 

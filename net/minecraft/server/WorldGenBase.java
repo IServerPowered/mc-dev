@@ -8,6 +8,8 @@ public class WorldGenBase {
     protected Random b = new Random();
     protected World c;
 
+    public WorldGenBase() {}
+
     public void a(IChunkProvider ichunkprovider, World world, int i, int j, ChunkSnapshot chunksnapshot) {
         int k = this.a;
 

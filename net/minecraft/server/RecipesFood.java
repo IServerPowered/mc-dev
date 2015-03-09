@@ -2,6 +2,8 @@ package net.minecraft.server;
 
 public class RecipesFood {
 
+    public RecipesFood() {}
+
     public void a(CraftingManager craftingmanager) {
         craftingmanager.registerShapelessRecipe(new ItemStack(Items.MUSHROOM_STEW), new Object[] { Blocks.BROWN_MUSHROOM, Blocks.RED_MUSHROOM, Items.BOWL});
         craftingmanager.registerShapedRecipe(new ItemStack(Items.COOKIE, 8), new Object[] { "#X#", Character.valueOf('X'), new ItemStack(Items.DYE, 1, EnumColor.BROWN.getInvColorIndex()), Character.valueOf('#'), Items.WHEAT});

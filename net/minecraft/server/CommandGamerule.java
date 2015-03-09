@@ -5,6 +5,8 @@ import java.util.List;
 
 public class CommandGamerule extends CommandAbstract {
 
+    public CommandGamerule() {}
+
     public String getCommand() {
         return "gamerule";
     }
@@ -17,7 +19,7 @@ public class CommandGamerule extends CommandAbstract {
         return "commands.gamerule.usage";
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         GameRules gamerules = this.d();
         String s = astring.length > 0 ? astring[0] : "";
         String s1 = astring.length > 1 ? a(astring, 1) : "";
@@ -35,11 +37,11 @@ public class CommandGamerule extends CommandAbstract {
             String s2 = gamerules.get(s);
 
             icommandlistener.sendMessage((new ChatComponentText(s)).a(" = ").a(s2));
-            icommandlistener.a(EnumCommandResult.QUERY_RESULT, gamerules.c(s));
+            icommandlistener.a(CommandObjectiveExecutor.a.QUERY_RESULT, gamerules.c(s));
             break;
 
         default:
-            if (gamerules.a(s, EnumGameRuleType.BOOLEAN_VALUE) && !"true".equals(s1) && !"false".equals(s1)) {
+            if (gamerules.a(s, GameRules.b.BOOLEAN_VALUE) && !"true".equals(s1) && !"false".equals(s1)) {
                 throw new CommandException("commands.generic.boolean.invalid", new Object[] { s1});
             }
 
@@ -53,7 +55,7 @@ public class CommandGamerule extends CommandAbstract {
     public static void a(GameRules gamerules, String s) {
         if ("reducedDebugInfo".equals(s)) {
             int i = gamerules.getBoolean(s) ? 22 : 23;
-            Iterator iterator = MinecraftServer.getServer().getPlayerList().players.iterator();
+            Iterator iterator = MinecraftServer.getServer().getPlayerList().v().iterator();
 
             while (iterator.hasNext()) {
                 EntityPlayer entityplayer = (EntityPlayer) iterator.next();
@@ -64,14 +66,14 @@ public class CommandGamerule extends CommandAbstract {
 
     }
 
-    public List tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
+    public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
         if (astring.length == 1) {
             return a(astring, this.d().getGameRules());
         } else {
             if (astring.length == 2) {
                 GameRules gamerules = this.d();
 
-                if (gamerules.a(astring[0], EnumGameRuleType.BOOLEAN_VALUE)) {
+                if (gamerules.a(astring[0], GameRules.b.BOOLEAN_VALUE)) {
                     return a(astring, new String[] { "true", "false"});
                 }
             }

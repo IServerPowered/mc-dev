@@ -22,7 +22,7 @@ public interface IChunkProvider {
 
     String getName();
 
-    List getMobsFor(EnumCreatureType enumcreaturetype, BlockPosition blockposition);
+    List<BiomeBase.c> getMobsFor(EnumCreatureType enumcreaturetype, BlockPosition blockposition);
 
     BlockPosition findNearestMapFeature(World world, String s, BlockPosition blockposition);
 

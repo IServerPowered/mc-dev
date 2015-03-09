@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class WorldGenReed extends WorldGenerator {
 
+    public WorldGenReed() {}
+
     public boolean generate(World world, Random random, BlockPosition blockposition) {
         for (int i = 0; i < 20; ++i) {
             BlockPosition blockposition1 = blockposition.a(random.nextInt(4) - random.nextInt(4), 0, random.nextInt(4) - random.nextInt(4));
@@ -15,7 +17,7 @@ public class WorldGenReed extends WorldGenerator {
                     int j = 2 + random.nextInt(random.nextInt(3) + 1);
 
                     for (int k = 0; k < j; ++k) {
-                        if (Blocks.REEDS.d(world, blockposition1)) {
+                        if (Blocks.REEDS.e(world, blockposition1)) {
                             world.setTypeAndData(blockposition1.up(k), Blocks.REEDS.getBlockData(), 2);
                         }
                     }

@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class BlockRedstoneTorch extends BlockTorch {
 
-    private static Map b = Maps.newHashMap();
+    private static Map<World, List<BlockRedstoneTorch.a>> b = Maps.newHashMap();
     private final boolean isOn;
 
     private boolean a(World world, BlockPosition blockposition, boolean flag) {
@@ -19,15 +19,15 @@ public class BlockRedstoneTorch extends BlockTorch {
         List list = (List) BlockRedstoneTorch.b.get(world);
 
         if (flag) {
-            list.add(new RedstoneUpdateInfo(blockposition, world.getTime()));
+            list.add(new BlockRedstoneTorch.a(blockposition, world.getTime()));
         }
 
         int i = 0;
 
         for (int j = 0; j < list.size(); ++j) {
-            RedstoneUpdateInfo redstoneupdateinfo = (RedstoneUpdateInfo) list.get(j);
+            BlockRedstoneTorch.a blockredstonetorch_a = (BlockRedstoneTorch.a) list.get(j);
 
-            if (redstoneupdateinfo.a.equals(blockposition)) {
+            if (blockredstonetorch_a.a.equals(blockposition)) {
                 ++i;
                 if (i >= 8) {
                     return true;
@@ -92,7 +92,7 @@ public class BlockRedstoneTorch extends BlockTorch {
         boolean flag = this.g(world, blockposition, iblockdata);
         List list = (List) BlockRedstoneTorch.b.get(world);
 
-        while (list != null && !list.isEmpty() && world.getTime() - ((RedstoneUpdateInfo) list.get(0)).b > 60L) {
+        while (list != null && !list.isEmpty() && world.getTime() - ((BlockRedstoneTorch.a) list.get(0)).b > 60L) {
             list.remove(0);
         }
 
@@ -142,5 +142,16 @@ public class BlockRedstoneTorch extends BlockTorch {
 
     public boolean b(Block block) {
         return block == Blocks.UNLIT_REDSTONE_TORCH || block == Blocks.REDSTONE_TORCH;
+    }
+
+    static class a {
+
+        BlockPosition a;
+        long b;
+
+        public a(BlockPosition blockposition, long i) {
+            this.a = blockposition;
+            this.b = i;
+        }
     }
 }

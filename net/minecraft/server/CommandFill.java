@@ -8,6 +8,8 @@ import java.util.List;
 
 public class CommandFill extends CommandAbstract {
 
+    public CommandFill() {}
+
     public String getCommand() {
         return "fill";
     }
@@ -20,11 +22,11 @@ public class CommandFill extends CommandAbstract {
         return "commands.fill.usage";
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 7) {
             throw new ExceptionUsage("commands.fill.usage", new Object[0]);
         } else {
-            icommandlistener.a(EnumCommandResult.AFFECTED_BLOCKS, 0);
+            icommandlistener.a(CommandObjectiveExecutor.a.AFFECTED_BLOCKS, 0);
             BlockPosition blockposition = a(icommandlistener, astring, 0, false);
             BlockPosition blockposition1 = a(icommandlistener, astring, 3, false);
             Block block = CommandAbstract.g(icommandlistener, astring[6]);
@@ -38,8 +40,8 @@ public class CommandFill extends CommandAbstract {
             BlockPosition blockposition3 = new BlockPosition(Math.max(blockposition.getX(), blockposition1.getX()), Math.max(blockposition.getY(), blockposition1.getY()), Math.max(blockposition.getZ(), blockposition1.getZ()));
             int j = (blockposition3.getX() - blockposition2.getX() + 1) * (blockposition3.getY() - blockposition2.getY() + 1) * (blockposition3.getZ() - blockposition2.getZ() + 1);
 
-            if (j > '耀') {
-                throw new CommandException("commands.fill.tooManyBlocks", new Object[] { Integer.valueOf(j), Integer.valueOf('耀')});
+            if (j > '\u8000') {
+                throw new CommandException("commands.fill.tooManyBlocks", new Object[] { Integer.valueOf(j), Integer.valueOf('\u8000')});
             } else if (blockposition2.getY() >= 0 && blockposition3.getY() < 256) {
                 World world = icommandlistener.getWorld();
 
@@ -151,7 +153,7 @@ public class CommandFill extends CommandAbstract {
                 if (j <= 0) {
                     throw new CommandException("commands.fill.failed", new Object[0]);
                 } else {
-                    icommandlistener.a(EnumCommandResult.AFFECTED_BLOCKS, j);
+                    icommandlistener.a(CommandObjectiveExecutor.a.AFFECTED_BLOCKS, j);
                     a(icommandlistener, this, "commands.fill.success", new Object[] { Integer.valueOf(j)});
                 }
             } else {
@@ -160,7 +162,7 @@ public class CommandFill extends CommandAbstract {
         }
     }
 
-    public List tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
-        return astring.length > 0 && astring.length <= 3 ? a(astring, 0, blockposition) : (astring.length > 3 && astring.length <= 6 ? a(astring, 3, blockposition) : (astring.length == 7 ? a(astring, (Collection) Block.REGISTRY.keySet()) : (astring.length == 9 ? a(astring, new String[] { "replace", "destroy", "keep", "hollow", "outline"}) : null)));
+    public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
+        return astring.length > 0 && astring.length <= 3 ? a(astring, 0, blockposition) : (astring.length > 3 && astring.length <= 6 ? a(astring, 3, blockposition) : (astring.length == 7 ? a(astring, (Collection) Block.REGISTRY.keySet()) : (astring.length == 9 ? a(astring, new String[] { "replace", "destroy", "keep", "hollow", "outline"}) : (astring.length == 10 && "replace".equals(astring[8]) ? a(astring, (Collection) Block.REGISTRY.keySet()) : null))));
     }
 }

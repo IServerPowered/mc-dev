@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class WorldGenWaterLily extends WorldGenerator {
 
+    public WorldGenWaterLily() {}
+
     public boolean generate(World world, Random random, BlockPosition blockposition) {
         for (int i = 0; i < 10; ++i) {
             int j = blockposition.getX() + random.nextInt(8) - random.nextInt(8);

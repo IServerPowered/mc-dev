@@ -20,7 +20,7 @@ public abstract class BlockDiodeAbstract extends BlockDirectional {
         return World.a((IBlockAccess) world, blockposition.down()) ? super.canPlace(world, blockposition) : false;
     }
 
-    public boolean d(World world, BlockPosition blockposition) {
+    public boolean e(World world, BlockPosition blockposition) {
         return World.a((IBlockAccess) world, blockposition.down());
     }
 
@@ -55,7 +55,7 @@ public abstract class BlockDiodeAbstract extends BlockDirectional {
     }
 
     public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
-        if (this.d(world, blockposition)) {
+        if (this.e(world, blockposition)) {
             this.g(world, blockposition, iblockdata);
         } else {
             this.b(world, blockposition, iblockdata, 0);

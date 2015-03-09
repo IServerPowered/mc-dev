@@ -2,7 +2,34 @@ package net.minecraft.server;
 
 public class TileEntityCommand extends TileEntity {
 
-    private final CommandBlockListenerAbstract a = new TileEntityCommandListener(this);
+    private final CommandBlockListenerAbstract a = new CommandBlockListenerAbstract() {
+        public BlockPosition getChunkCoordinates() {
+            return TileEntityCommand.this.position;
+        }
+
+        public Vec3D d() {
+            return new Vec3D((double) TileEntityCommand.this.position.getX() + 0.5D, (double) TileEntityCommand.this.position.getY() + 0.5D, (double) TileEntityCommand.this.position.getZ() + 0.5D);
+        }
+
+        public World getWorld() {
+            return TileEntityCommand.this.getWorld();
+        }
+
+        public void setCommand(String s) {
+            super.setCommand(s);
+            TileEntityCommand.this.update();
+        }
+
+        public void h() {
+            TileEntityCommand.this.getWorld().notify(TileEntityCommand.this.position);
+        }
+
+        public Entity f() {
+            return null;
+        }
+    };
+
+    public TileEntityCommand() {}
 
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);

@@ -1,14 +1,18 @@
 package net.minecraft.server;
 
-public class PacketStatusInPing implements Packet {
+import java.io.IOException;
+
+public class PacketStatusInPing implements Packet<PacketStatusInListener> {
 
     private long a;
 
-    public void a(PacketDataSerializer packetdataserializer) {
+    public PacketStatusInPing() {}
+
+    public void a(PacketDataSerializer packetdataserializer) throws IOException {
         this.a = packetdataserializer.readLong();
     }
 
-    public void b(PacketDataSerializer packetdataserializer) {
+    public void b(PacketDataSerializer packetdataserializer) throws IOException {
         packetdataserializer.writeLong(this.a);
     }
 
@@ -18,5 +22,9 @@ public class PacketStatusInPing implements Packet {
 
     public long a() {
         return this.a;
+    }
+
+    public void a(PacketListener packetlistener) {
+        this.a((PacketStatusInListener) packetlistener);
     }
 }

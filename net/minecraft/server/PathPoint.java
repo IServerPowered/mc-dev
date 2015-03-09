@@ -21,7 +21,7 @@ public class PathPoint {
     }
 
     public static int a(int i, int j, int k) {
-        return j & 255 | (i & 32767) << 8 | (k & 32767) << 24 | (i < 0 ? Integer.MIN_VALUE : 0) | (k < 0 ? '耀' : 0);
+        return j & 255 | (i & 32767) << 8 | (k & 32767) << 24 | (i < 0 ? Integer.MIN_VALUE : 0) | (k < 0 ? '\u8000' : 0);
     }
 
     public float a(PathPoint pathpoint) {

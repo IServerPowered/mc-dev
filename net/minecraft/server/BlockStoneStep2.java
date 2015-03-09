@@ -2,7 +2,9 @@ package net.minecraft.server;
 
 public class BlockStoneStep2 extends BlockDoubleStoneStepAbstract {
 
-    public boolean j() {
+    public BlockStoneStep2() {}
+
+    public boolean l() {
         return false;
     }
 }

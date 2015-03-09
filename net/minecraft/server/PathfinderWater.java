@@ -2,6 +2,8 @@ package net.minecraft.server;
 
 public class PathfinderWater extends PathfinderAbstract {
 
+    public PathfinderWater() {}
+
     public void a(IBlockAccess iblockaccess, Entity entity) {
         super.a(iblockaccess, entity);
     }
@@ -42,11 +44,12 @@ public class PathfinderWater extends PathfinderAbstract {
     }
 
     private int b(Entity entity, int i, int j, int k) {
+        BlockPosition.a blockposition_a = new BlockPosition.a();
+
         for (int l = i; l < i + this.c; ++l) {
             for (int i1 = j; i1 < j + this.d; ++i1) {
                 for (int j1 = k; j1 < k + this.e; ++j1) {
-                    BlockPosition blockposition = new BlockPosition(l, i1, j1);
-                    Block block = this.a.getType(blockposition).getBlock();
+                    Block block = this.a.getType(blockposition_a.c(l, i1, j1)).getBlock();
 
                     if (block.getMaterial() != Material.WATER) {
                         return 0;

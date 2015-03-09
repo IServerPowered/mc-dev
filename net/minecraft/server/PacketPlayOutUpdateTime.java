@@ -1,6 +1,8 @@
 package net.minecraft.server;
 
-public class PacketPlayOutUpdateTime implements Packet {
+import java.io.IOException;
+
+public class PacketPlayOutUpdateTime implements Packet<PacketListenerPlayOut> {
 
     private long a;
     private long b;
@@ -19,17 +21,21 @@ public class PacketPlayOutUpdateTime implements Packet {
 
     }
 
-    public void a(PacketDataSerializer packetdataserializer) {
+    public void a(PacketDataSerializer packetdataserializer) throws IOException {
         this.a = packetdataserializer.readLong();
         this.b = packetdataserializer.readLong();
     }
 
-    public void b(PacketDataSerializer packetdataserializer) {
+    public void b(PacketDataSerializer packetdataserializer) throws IOException {
         packetdataserializer.writeLong(this.a);
         packetdataserializer.writeLong(this.b);
     }
 
     public void a(PacketListenerPlayOut packetlistenerplayout) {
         packetlistenerplayout.a(this);
+    }
+
+    public void a(PacketListener packetlistener) {
+        this.a((PacketListenerPlayOut) packetlistener);
     }
 }

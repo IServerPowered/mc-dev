@@ -5,6 +5,8 @@ import java.util.List;
 
 public class CommandWhitelist extends CommandAbstract {
 
+    public CommandWhitelist() {}
+
     public String getCommand() {
         return "whitelist";
     }
@@ -17,7 +19,7 @@ public class CommandWhitelist extends CommandAbstract {
         return "commands.whitelist.usage";
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 1) {
             throw new ExceptionUsage("commands.whitelist.usage", new Object[0]);
         } else {
@@ -70,7 +72,7 @@ public class CommandWhitelist extends CommandAbstract {
         }
     }
 
-    public List tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
+    public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
         if (astring.length == 1) {
             return a(astring, new String[] { "on", "off", "list", "add", "remove", "reload"});
         } else {

@@ -5,9 +5,9 @@ import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class BlockStateInteger extends BlockState {
+public class BlockStateInteger extends BlockState<Integer> {
 
-    private final ImmutableSet a;
+    private final ImmutableSet<Integer> a;
 
     protected BlockStateInteger(String s, int i, int j) {
         super(s, Integer.class);
@@ -26,7 +26,7 @@ public class BlockStateInteger extends BlockState {
         }
     }
 
-    public Collection c() {
+    public Collection<Integer> c() {
         return this.a;
     }
 
@@ -59,5 +59,9 @@ public class BlockStateInteger extends BlockState {
 
     public String a(Integer integer) {
         return integer.toString();
+    }
+
+    public String a(Comparable comparable) {
+        return this.a((Integer) comparable);
     }
 }

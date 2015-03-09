@@ -5,6 +5,8 @@ public class RemoteControlCommandListener implements ICommandListener {
     private static final RemoteControlCommandListener instance = new RemoteControlCommandListener();
     private StringBuffer b = new StringBuffer();
 
+    public RemoteControlCommandListener() {}
+
     public static RemoteControlCommandListener getInstance() {
         return RemoteControlCommandListener.instance;
     }
@@ -53,5 +55,5 @@ public class RemoteControlCommandListener implements ICommandListener {
         return true;
     }
 
-    public void a(EnumCommandResult enumcommandresult, int i) {}
+    public void a(CommandObjectiveExecutor.a commandobjectiveexecutor_a, int i) {}
 }

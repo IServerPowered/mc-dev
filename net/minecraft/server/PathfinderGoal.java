@@ -4,6 +4,8 @@ public abstract class PathfinderGoal {
 
     private int a;
 
+    public PathfinderGoal() {}
+
     public abstract boolean a();
 
     public boolean b() {

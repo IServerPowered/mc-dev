@@ -12,6 +12,8 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
     private int cookTimeTotal;
     private String m;
 
+    public TileEntityFurnace() {}
+
     public int getSize() {
         return this.items.length;
     }
@@ -145,7 +147,7 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
             --this.burnTime;
         }
 
-        if (!this.world.isStatic) {
+        if (!this.world.isClientSide) {
             if (!this.isBurning() && (this.items[1] == null || this.items[0] == null)) {
                 if (!this.isBurning() && this.cookTime > 0) {
                     this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.cookTimeTotal);

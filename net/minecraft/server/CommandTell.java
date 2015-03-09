@@ -5,7 +5,9 @@ import java.util.List;
 
 public class CommandTell extends CommandAbstract {
 
-    public List b() {
+    public CommandTell() {}
+
+    public List<String> b() {
         return Arrays.asList(new String[] { "w", "msg"});
     }
 
@@ -21,7 +23,7 @@ public class CommandTell extends CommandAbstract {
         return "commands.message.usage";
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 2) {
             throw new ExceptionUsage("commands.message.usage", new Object[0]);
         } else {
@@ -42,7 +44,7 @@ public class CommandTell extends CommandAbstract {
         }
     }
 
-    public List tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
+    public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
         return a(astring, MinecraftServer.getServer().getPlayers());
     }
 

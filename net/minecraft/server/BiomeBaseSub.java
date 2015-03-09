@@ -48,7 +48,7 @@ public class BiomeBaseSub extends BiomeBase {
         return this.biomes.a(random);
     }
 
-    public Class l() {
+    public Class<? extends BiomeBase> l() {
         return this.biomes.l();
     }
 
@@ -56,7 +56,7 @@ public class BiomeBaseSub extends BiomeBase {
         return this.biomes.a(biomebase);
     }
 
-    public EnumTemperature m() {
+    public BiomeBase.b m() {
         return this.biomes.m();
     }
 }

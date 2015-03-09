@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class WorldGenCavesHell extends WorldGenBase {
 
+    public WorldGenCavesHell() {}
+
     protected void a(long i, int j, int k, ChunkSnapshot chunksnapshot, double d0, double d1, double d2) {
         this.a(i, j, k, chunksnapshot, d0, d1, d2, 1.0F + this.b.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
     }

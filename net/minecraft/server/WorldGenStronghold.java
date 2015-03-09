@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 
 public class WorldGenStronghold extends StructureGenerator {
 
-    private List d;
+    private List<BiomeBase> d;
     private boolean f;
     private ChunkCoordIntPair[] g;
     private double h;
@@ -34,7 +34,7 @@ public class WorldGenStronghold extends StructureGenerator {
 
     }
 
-    public WorldGenStronghold(Map map) {
+    public WorldGenStronghold(Map<String, String> map) {
         this();
         Iterator iterator = map.entrySet().iterator();
 
@@ -100,7 +100,7 @@ public class WorldGenStronghold extends StructureGenerator {
         return false;
     }
 
-    protected List y_() {
+    protected List<BlockPosition> z_() {
         ArrayList arraylist = Lists.newArrayList();
         ChunkCoordIntPair[] achunkcoordintpair = this.g;
         int i = achunkcoordintpair.length;
@@ -117,12 +117,37 @@ public class WorldGenStronghold extends StructureGenerator {
     }
 
     protected StructureStart b(int i, int j) {
-        WorldGenStronghold2Start worldgenstronghold2start;
+        WorldGenStronghold.a worldgenstronghold_a;
 
-        for (worldgenstronghold2start = new WorldGenStronghold2Start(this.c, this.b, i, j); worldgenstronghold2start.b().isEmpty() || ((WorldGenStrongholdStart) worldgenstronghold2start.b().get(0)).b == null; worldgenstronghold2start = new WorldGenStronghold2Start(this.c, this.b, i, j)) {
+        for (worldgenstronghold_a = new WorldGenStronghold.a(this.c, this.b, i, j); worldgenstronghold_a.b().isEmpty() || ((WorldGenStrongholdPieces.m) worldgenstronghold_a.b().get(0)).b == null; worldgenstronghold_a = new WorldGenStronghold.a(this.c, this.b, i, j)) {
             ;
         }
 
-        return worldgenstronghold2start;
+        return worldgenstronghold_a;
+    }
+
+    public static class a extends StructureStart {
+
+        public a() {}
+
+        public a(World world, Random random, int i, int j) {
+            super(i, j);
+            WorldGenStrongholdPieces.b();
+            WorldGenStrongholdPieces.m worldgenstrongholdpieces_m = new WorldGenStrongholdPieces.m(0, random, (i << 4) + 2, (j << 4) + 2);
+
+            this.a.add(worldgenstrongholdpieces_m);
+            worldgenstrongholdpieces_m.a((StructurePiece) worldgenstrongholdpieces_m, (List) this.a, random);
+            List list = worldgenstrongholdpieces_m.c;
+
+            while (!list.isEmpty()) {
+                int k = random.nextInt(list.size());
+                StructurePiece structurepiece = (StructurePiece) list.remove(k);
+
+                structurepiece.a((StructurePiece) worldgenstrongholdpieces_m, (List) this.a, random);
+            }
+
+            this.c();
+            this.a(world, random, 10);
+        }
     }
 }

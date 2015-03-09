@@ -4,6 +4,8 @@ public class InventoryCraftResult implements IInventory {
 
     private ItemStack[] items = new ItemStack[1];
 
+    public InventoryCraftResult() {}
+
     public int getSize() {
         return 1;
     }

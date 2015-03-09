@@ -2,7 +2,9 @@ package net.minecraft.server;
 
 public class BlockDoubleStep extends BlockDoubleStepAbstract {
 
-    public boolean j() {
+    public BlockDoubleStep() {}
+
+    public boolean l() {
         return true;
     }
 }

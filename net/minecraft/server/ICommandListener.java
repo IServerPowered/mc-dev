@@ -20,5 +20,5 @@ public interface ICommandListener {
 
     boolean getSendCommandFeedback();
 
-    void a(EnumCommandResult enumcommandresult, int i);
+    void a(CommandObjectiveExecutor.a commandobjectiveexecutor_a, int i);
 }

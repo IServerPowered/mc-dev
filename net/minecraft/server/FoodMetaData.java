@@ -8,6 +8,8 @@ public class FoodMetaData {
     private int foodTickTimer;
     private int e = 20;
 
+    public FoodMetaData() {}
+
     public void eat(int i, float f) {
         this.foodLevel = Math.min(i + this.foodLevel, 20);
         this.saturationLevel = Math.min(this.saturationLevel + (float) i * f * 2.0F, (float) this.foodLevel);
@@ -30,7 +32,7 @@ public class FoodMetaData {
             }
         }
 
-        if (entityhuman.world.getGameRules().getBoolean("naturalRegeneration") && this.foodLevel >= 18 && entityhuman.cl()) {
+        if (entityhuman.world.getGameRules().getBoolean("naturalRegeneration") && this.foodLevel >= 18 && entityhuman.cm()) {
             ++this.foodTickTimer;
             if (this.foodTickTimer >= 80) {
                 entityhuman.heal(1.0F);

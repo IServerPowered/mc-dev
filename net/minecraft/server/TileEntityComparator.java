@@ -4,6 +4,8 @@ public class TileEntityComparator extends TileEntity {
 
     private int a;
 
+    public TileEntityComparator() {}
+
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
         nbttagcompound.setInt("OutputSignal", this.a);

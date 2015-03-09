@@ -7,6 +7,8 @@ public class TileEntityEnderChest extends TileEntity implements IUpdatePlayerLis
     public int g;
     private int h;
 
+    public TileEntityEnderChest() {}
+
     public void c() {
         if (++this.h % 20 * 4 == 0) {
             this.world.playBlockAction(this.position, Blocks.ENDER_CHEST, 1, this.g);

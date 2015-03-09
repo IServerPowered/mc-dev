@@ -8,17 +8,17 @@ import org.apache.logging.log4j.Logger;
 public class WorldGenFactory {
 
     private static final Logger a = LogManager.getLogger();
-    private static Map b = Maps.newHashMap();
-    private static Map c = Maps.newHashMap();
-    private static Map d = Maps.newHashMap();
-    private static Map e = Maps.newHashMap();
+    private static Map<String, Class<? extends StructureStart>> b = Maps.newHashMap();
+    private static Map<Class<? extends StructureStart>, String> c = Maps.newHashMap();
+    private static Map<String, Class<? extends StructurePiece>> d = Maps.newHashMap();
+    private static Map<Class<? extends StructurePiece>, String> e = Maps.newHashMap();
 
-    private static void b(Class oclass, String s) {
+    private static void b(Class<? extends StructureStart> oclass, String s) {
         WorldGenFactory.b.put(s, oclass);
         WorldGenFactory.c.put(oclass, s);
     }
 
-    static void a(Class oclass, String s) {
+    static void a(Class<? extends StructurePiece> oclass, String s) {
         WorldGenFactory.d.put(s, oclass);
         WorldGenFactory.e.put(oclass, s);
     }
@@ -79,11 +79,11 @@ public class WorldGenFactory {
 
     static {
         b(WorldGenMineshaftStart.class, "Mineshaft");
-        b(WorldGenVillageStart.class, "Village");
-        b(WorldGenNetherStart.class, "Fortress");
-        b(WorldGenStronghold2Start.class, "Stronghold");
-        b(WorldGenLargeFeatureStart.class, "Temple");
-        b(WorldGenMonumentStart.class, "Monument");
+        b(WorldGenVillage.a.class, "Village");
+        b(WorldGenNether.a.class, "Fortress");
+        b(WorldGenStronghold.a.class, "Stronghold");
+        b(WorldGenLargeFeature.a.class, "Temple");
+        b(WorldGenMonument.a.class, "Monument");
         WorldGenMineshaftPieces.a();
         WorldGenVillagePieces.a();
         WorldGenNetherPieces.a();

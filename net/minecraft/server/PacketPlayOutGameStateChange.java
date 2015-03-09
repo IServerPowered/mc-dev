@@ -1,6 +1,8 @@
 package net.minecraft.server;
 
-public class PacketPlayOutGameStateChange implements Packet {
+import java.io.IOException;
+
+public class PacketPlayOutGameStateChange implements Packet<PacketListenerPlayOut> {
 
     public static final String[] a = new String[] { "tile.bed.notValid"};
     private int b;
@@ -13,17 +15,21 @@ public class PacketPlayOutGameStateChange implements Packet {
         this.c = f;
     }
 
-    public void a(PacketDataSerializer packetdataserializer) {
+    public void a(PacketDataSerializer packetdataserializer) throws IOException {
         this.b = packetdataserializer.readUnsignedByte();
         this.c = packetdataserializer.readFloat();
     }
 
-    public void b(PacketDataSerializer packetdataserializer) {
+    public void b(PacketDataSerializer packetdataserializer) throws IOException {
         packetdataserializer.writeByte(this.b);
         packetdataserializer.writeFloat(this.c);
     }
 
     public void a(PacketListenerPlayOut packetlistenerplayout) {
         packetlistenerplayout.a(this);
+    }
+
+    public void a(PacketListener packetlistener) {
+        this.a((PacketListenerPlayOut) packetlistener);
     }
 }

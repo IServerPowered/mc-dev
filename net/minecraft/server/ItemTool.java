@@ -5,18 +5,18 @@ import java.util.Set;
 
 public class ItemTool extends Item {
 
-    private Set c;
+    private Set<Block> c;
     protected float a = 4.0F;
     private float d;
-    protected EnumToolMaterial b;
+    protected Item.a b;
 
-    protected ItemTool(float f, EnumToolMaterial enumtoolmaterial, Set set) {
-        this.b = enumtoolmaterial;
+    protected ItemTool(float f, Item.a item_a, Set<Block> set) {
+        this.b = item_a;
         this.c = set;
         this.maxStackSize = 1;
-        this.setMaxDurability(enumtoolmaterial.a());
-        this.a = enumtoolmaterial.b();
-        this.d = f + enumtoolmaterial.c();
+        this.setMaxDurability(item_a.a());
+        this.a = item_a.b();
+        this.d = f + item_a.c();
         this.a(CreativeModeTab.i);
     }
 
@@ -37,7 +37,7 @@ public class ItemTool extends Item {
         return true;
     }
 
-    public EnumToolMaterial g() {
+    public Item.a g() {
         return this.b;
     }
 
@@ -53,7 +53,7 @@ public class ItemTool extends Item {
         return this.b.f() == itemstack1.getItem() ? true : super.a(itemstack, itemstack1);
     }
 
-    public Multimap i() {
+    public Multimap<String, AttributeModifier> i() {
         Multimap multimap = super.i();
 
         multimap.put(GenericAttributes.e.getName(), new AttributeModifier(ItemTool.f, "Tool modifier", (double) this.d, 0));

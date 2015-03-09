@@ -2,11 +2,13 @@ package net.minecraft.server;
 
 public class BlockCarrots extends BlockCrops {
 
-    protected Item j() {
+    public BlockCarrots() {}
+
+    protected Item l() {
         return Items.CARROT;
     }
 
-    protected Item l() {
+    protected Item n() {
         return Items.CARROT;
     }
 }

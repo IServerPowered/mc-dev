@@ -12,7 +12,7 @@ public class ItemGlassBottle extends Item {
         if (movingobjectposition == null) {
             return itemstack;
         } else {
-            if (movingobjectposition.type == EnumMovingObjectType.BLOCK) {
+            if (movingobjectposition.type == MovingObjectPosition.a.BLOCK) {
                 BlockPosition blockposition = movingobjectposition.a();
 
                 if (!world.a(entityhuman, blockposition)) {

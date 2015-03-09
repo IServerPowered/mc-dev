@@ -3,12 +3,14 @@ package net.minecraft.server;
 import io.netty.buffer.ByteBuf;
 import java.io.IOException;
 
-public class PacketPlayInCustomPayload implements Packet {
+public class PacketPlayInCustomPayload implements Packet<PacketListenerPlayIn> {
 
     private String a;
     private PacketDataSerializer b;
 
-    public void a(PacketDataSerializer packetdataserializer) {
+    public PacketPlayInCustomPayload() {}
+
+    public void a(PacketDataSerializer packetdataserializer) throws IOException {
         this.a = packetdataserializer.c(20);
         int i = packetdataserializer.readableBytes();
 
@@ -19,7 +21,7 @@ public class PacketPlayInCustomPayload implements Packet {
         }
     }
 
-    public void b(PacketDataSerializer packetdataserializer) {
+    public void b(PacketDataSerializer packetdataserializer) throws IOException {
         packetdataserializer.a(this.a);
         packetdataserializer.writeBytes((ByteBuf) this.b);
     }
@@ -34,5 +36,9 @@ public class PacketPlayInCustomPayload implements Packet {
 
     public PacketDataSerializer b() {
         return this.b;
+    }
+
+    public void a(PacketListener packetlistener) {
+        this.a((PacketListenerPlayIn) packetlistener);
     }
 }

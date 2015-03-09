@@ -8,6 +8,8 @@ public class TileEntityDispenser extends TileEntityContainer implements IInvento
     private ItemStack[] items = new ItemStack[9];
     protected String a;
 
+    public TileEntityDispenser() {}
+
     public int getSize() {
         return 9;
     }

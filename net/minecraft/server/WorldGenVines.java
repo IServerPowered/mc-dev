@@ -4,10 +4,12 @@ import java.util.Random;
 
 public class WorldGenVines extends WorldGenerator {
 
+    public WorldGenVines() {}
+
     public boolean generate(World world, Random random, BlockPosition blockposition) {
         for (; blockposition.getY() < 128; blockposition = blockposition.up()) {
             if (world.isEmpty(blockposition)) {
-                EnumDirection[] aenumdirection = EnumDirectionLimit.HORIZONTAL.a();
+                EnumDirection[] aenumdirection = EnumDirection.c.HORIZONTAL.a();
                 int i = aenumdirection.length;
 
                 for (int j = 0; j < i; ++j) {

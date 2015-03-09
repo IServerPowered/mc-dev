@@ -2,6 +2,8 @@ package net.minecraft.server;
 
 public abstract class DispenseBehaviorProjectile extends DispenseBehaviorItem {
 
+    public DispenseBehaviorProjectile() {}
+
     public ItemStack b(ISourceBlock isourceblock, ItemStack itemstack) {
         World world = isourceblock.i();
         IPosition iposition = BlockDispenser.a(isourceblock);

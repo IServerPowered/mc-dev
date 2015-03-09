@@ -2,7 +2,9 @@ package net.minecraft.server;
 
 public class BlockWoodStep extends BlockWoodenStep {
 
-    public boolean j() {
+    public BlockWoodStep() {}
+
+    public boolean l() {
         return false;
     }
 }

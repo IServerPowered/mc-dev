@@ -5,6 +5,8 @@ import java.util.List;
 
 public class CommandTp extends CommandAbstract {
 
+    public CommandTp() {}
+
     public String getCommand() {
         return "tp";
     }
@@ -17,7 +19,7 @@ public class CommandTp extends CommandAbstract {
         return "commands.tp.usage";
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 1) {
             throw new ExceptionUsage("commands.tp.usage", new Object[0]);
         } else {
@@ -36,44 +38,44 @@ public class CommandTp extends CommandAbstract {
                     throw new ExceptionUsage("commands.tp.usage", new Object[0]);
                 } else if (((Entity) object).world != null) {
                     int i = b0 + 1;
-                    CommandNumber commandnumber = a(((Entity) object).locX, astring[b0], true);
-                    CommandNumber commandnumber1 = a(((Entity) object).locY, astring[i++], 0, 0, false);
-                    CommandNumber commandnumber2 = a(((Entity) object).locZ, astring[i++], true);
-                    CommandNumber commandnumber3 = a((double) ((Entity) object).yaw, astring.length > i ? astring[i++] : "~", false);
-                    CommandNumber commandnumber4 = a((double) ((Entity) object).pitch, astring.length > i ? astring[i] : "~", false);
+                    CommandAbstract.a commandabstract_a = a(((Entity) object).locX, astring[b0], true);
+                    CommandAbstract.a commandabstract_a1 = a(((Entity) object).locY, astring[i++], 0, 0, false);
+                    CommandAbstract.a commandabstract_a2 = a(((Entity) object).locZ, astring[i++], true);
+                    CommandAbstract.a commandabstract_a3 = a((double) ((Entity) object).yaw, astring.length > i ? astring[i++] : "~", false);
+                    CommandAbstract.a commandabstract_a4 = a((double) ((Entity) object).pitch, astring.length > i ? astring[i] : "~", false);
                     float f;
 
                     if (object instanceof EntityPlayer) {
-                        EnumSet enumset = EnumSet.noneOf(EnumPlayerTeleportFlags.class);
+                        EnumSet enumset = EnumSet.noneOf(PacketPlayOutPosition.a.class);
 
-                        if (commandnumber.c()) {
-                            enumset.add(EnumPlayerTeleportFlags.X);
+                        if (commandabstract_a.c()) {
+                            enumset.add(PacketPlayOutPosition.a.X);
                         }
 
-                        if (commandnumber1.c()) {
-                            enumset.add(EnumPlayerTeleportFlags.Y);
+                        if (commandabstract_a1.c()) {
+                            enumset.add(PacketPlayOutPosition.a.Y);
                         }
 
-                        if (commandnumber2.c()) {
-                            enumset.add(EnumPlayerTeleportFlags.Z);
+                        if (commandabstract_a2.c()) {
+                            enumset.add(PacketPlayOutPosition.a.Z);
                         }
 
-                        if (commandnumber4.c()) {
-                            enumset.add(EnumPlayerTeleportFlags.X_ROT);
+                        if (commandabstract_a4.c()) {
+                            enumset.add(PacketPlayOutPosition.a.X_ROT);
                         }
 
-                        if (commandnumber3.c()) {
-                            enumset.add(EnumPlayerTeleportFlags.Y_ROT);
+                        if (commandabstract_a3.c()) {
+                            enumset.add(PacketPlayOutPosition.a.Y_ROT);
                         }
 
-                        f = (float) commandnumber3.b();
-                        if (!commandnumber3.c()) {
+                        f = (float) commandabstract_a3.b();
+                        if (!commandabstract_a3.c()) {
                             f = MathHelper.g(f);
                         }
 
-                        float f1 = (float) commandnumber4.b();
+                        float f1 = (float) commandabstract_a4.b();
 
-                        if (!commandnumber4.c()) {
+                        if (!commandabstract_a4.c()) {
                             f1 = MathHelper.g(f1);
                         }
 
@@ -83,22 +85,22 @@ public class CommandTp extends CommandAbstract {
                         }
 
                         ((Entity) object).mount((Entity) null);
-                        ((EntityPlayer) object).playerConnection.a(commandnumber.b(), commandnumber1.b(), commandnumber2.b(), f, f1, enumset);
+                        ((EntityPlayer) object).playerConnection.a(commandabstract_a.b(), commandabstract_a1.b(), commandabstract_a2.b(), f, f1, enumset);
                         ((Entity) object).f(f);
                     } else {
-                        float f2 = (float) MathHelper.g(commandnumber3.a());
+                        float f2 = (float) MathHelper.g(commandabstract_a3.a());
 
-                        f = (float) MathHelper.g(commandnumber4.a());
+                        f = (float) MathHelper.g(commandabstract_a4.a());
                         if (f > 90.0F || f < -90.0F) {
                             f = MathHelper.g(180.0F - f);
                             f2 = MathHelper.g(f2 + 180.0F);
                         }
 
-                        ((Entity) object).setPositionRotation(commandnumber.a(), commandnumber1.a(), commandnumber2.a(), f2, f);
+                        ((Entity) object).setPositionRotation(commandabstract_a.a(), commandabstract_a1.a(), commandabstract_a2.a(), f2, f);
                         ((Entity) object).f(f2);
                     }
 
-                    a(icommandlistener, this, "commands.tp.success.coordinates", new Object[] { ((Entity) object).getName(), Double.valueOf(commandnumber.a()), Double.valueOf(commandnumber1.a()), Double.valueOf(commandnumber2.a())});
+                    a(icommandlistener, this, "commands.tp.success.coordinates", new Object[] { ((Entity) object).getName(), Double.valueOf(commandabstract_a.a()), Double.valueOf(commandabstract_a1.a()), Double.valueOf(commandabstract_a2.a())});
                 }
             } else {
                 Entity entity = b(icommandlistener, astring[astring.length - 1]);
@@ -119,7 +121,7 @@ public class CommandTp extends CommandAbstract {
         }
     }
 
-    public List tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
+    public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
         return astring.length != 1 && astring.length != 2 ? null : a(astring, MinecraftServer.getServer().getPlayers());
     }
 

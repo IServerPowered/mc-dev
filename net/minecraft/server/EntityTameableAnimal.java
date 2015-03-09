@@ -8,7 +8,7 @@ public abstract class EntityTameableAnimal extends EntityAnimal implements Entit
 
     public EntityTameableAnimal(World world) {
         super(world);
-        this.ck();
+        this.cm();
     }
 
     protected void h() {
@@ -79,10 +79,10 @@ public abstract class EntityTameableAnimal extends EntityAnimal implements Entit
             this.datawatcher.watch(16, Byte.valueOf((byte) (b0 & -5)));
         }
 
-        this.ck();
+        this.cm();
     }
 
-    protected void ck() {}
+    protected void cm() {}
 
     public boolean isSitting() {
         return (this.datawatcher.getByte(16) & 1) != 0;
@@ -158,8 +158,8 @@ public abstract class EntityTameableAnimal extends EntityAnimal implements Entit
     }
 
     public void die(DamageSource damagesource) {
-        if (!this.world.isStatic && this.world.getGameRules().getBoolean("showDeathMessages") && this.hasCustomName() && this.getOwner() instanceof EntityPlayer) {
-            ((EntityPlayer) this.getOwner()).sendMessage(this.br().b());
+        if (!this.world.isClientSide && this.world.getGameRules().getBoolean("showDeathMessages") && this.hasCustomName() && this.getOwner() instanceof EntityPlayer) {
+            ((EntityPlayer) this.getOwner()).sendMessage(this.bs().b());
         }
 
         super.die(damagesource);

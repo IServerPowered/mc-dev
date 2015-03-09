@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 public class CommandObjectiveExecutor {
 
-    private static final int a = EnumCommandResult.values().length;
+    private static final int a = CommandObjectiveExecutor.a.values().length;
     private static final String[] b = new String[CommandObjectiveExecutor.a];
     private String[] c;
     private String[] d;
@@ -12,19 +12,61 @@ public class CommandObjectiveExecutor {
         this.d = CommandObjectiveExecutor.b;
     }
 
-    public void a(ICommandListener icommandlistener, EnumCommandResult enumcommandresult, int i) {
-        String s = this.c[enumcommandresult.a()];
+    public void a(final ICommandListener icommandlistener, CommandObjectiveExecutor.a commandobjectiveexecutor_a, int i) {
+        String s = this.c[commandobjectiveexecutor_a.a()];
 
         if (s != null) {
+            ICommandListener icommandlistener1 = new ICommandListener() {
+                public String getName() {
+                    return icommandlistener.getName();
+                }
+
+                public IChatBaseComponent getScoreboardDisplayName() {
+                    return icommandlistener.getScoreboardDisplayName();
+                }
+
+                public void sendMessage(IChatBaseComponent ichatbasecomponent) {
+                    icommandlistener.sendMessage(ichatbasecomponent);
+                }
+
+                public boolean a(int i, String s) {
+                    return true;
+                }
+
+                public BlockPosition getChunkCoordinates() {
+                    return icommandlistener.getChunkCoordinates();
+                }
+
+                public Vec3D d() {
+                    return icommandlistener.d();
+                }
+
+                public World getWorld() {
+                    return icommandlistener.getWorld();
+                }
+
+                public Entity f() {
+                    return icommandlistener.f();
+                }
+
+                public boolean getSendCommandFeedback() {
+                    return icommandlistener.getSendCommandFeedback();
+                }
+
+                public void a(CommandObjectiveExecutor.a commandobjectiveexecutor_a, int i) {
+                    icommandlistener.a(commandobjectiveexecutor_a, i);
+                }
+            };
+
             String s1;
 
             try {
-                s1 = CommandAbstract.e(icommandlistener, s);
+                s1 = CommandAbstract.e(icommandlistener1, s);
             } catch (ExceptionEntityNotFound exceptionentitynotfound) {
                 return;
             }
 
-            String s2 = this.d[enumcommandresult.a()];
+            String s2 = this.d[commandobjectiveexecutor_a.a()];
 
             if (s2 != null) {
                 Scoreboard scoreboard = icommandlistener.getWorld().getScoreboard();
@@ -44,19 +86,19 @@ public class CommandObjectiveExecutor {
     public void a(NBTTagCompound nbttagcompound) {
         if (nbttagcompound.hasKeyOfType("CommandStats", 10)) {
             NBTTagCompound nbttagcompound1 = nbttagcompound.getCompound("CommandStats");
-            EnumCommandResult[] aenumcommandresult = EnumCommandResult.values();
-            int i = aenumcommandresult.length;
+            CommandObjectiveExecutor.a[] acommandobjectiveexecutor_a = CommandObjectiveExecutor.a.values();
+            int i = acommandobjectiveexecutor_a.length;
 
             for (int j = 0; j < i; ++j) {
-                EnumCommandResult enumcommandresult = aenumcommandresult[j];
-                String s = enumcommandresult.b() + "Name";
-                String s1 = enumcommandresult.b() + "Objective";
+                CommandObjectiveExecutor.a commandobjectiveexecutor_a = acommandobjectiveexecutor_a[j];
+                String s = commandobjectiveexecutor_a.b() + "Name";
+                String s1 = commandobjectiveexecutor_a.b() + "Objective";
 
                 if (nbttagcompound1.hasKeyOfType(s, 8) && nbttagcompound1.hasKeyOfType(s1, 8)) {
                     String s2 = nbttagcompound1.getString(s);
                     String s3 = nbttagcompound1.getString(s1);
 
-                    a(this, enumcommandresult, s2, s3);
+                    a(this, commandobjectiveexecutor_a, s2, s3);
                 }
             }
 
@@ -65,17 +107,17 @@ public class CommandObjectiveExecutor {
 
     public void b(NBTTagCompound nbttagcompound) {
         NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-        EnumCommandResult[] aenumcommandresult = EnumCommandResult.values();
-        int i = aenumcommandresult.length;
+        CommandObjectiveExecutor.a[] acommandobjectiveexecutor_a = CommandObjectiveExecutor.a.values();
+        int i = acommandobjectiveexecutor_a.length;
 
         for (int j = 0; j < i; ++j) {
-            EnumCommandResult enumcommandresult = aenumcommandresult[j];
-            String s = this.c[enumcommandresult.a()];
-            String s1 = this.d[enumcommandresult.a()];
+            CommandObjectiveExecutor.a commandobjectiveexecutor_a = acommandobjectiveexecutor_a[j];
+            String s = this.c[commandobjectiveexecutor_a.a()];
+            String s1 = this.d[commandobjectiveexecutor_a.a()];
 
             if (s != null && s1 != null) {
-                nbttagcompound1.setString(enumcommandresult.b() + "Name", s);
-                nbttagcompound1.setString(enumcommandresult.b() + "Objective", s1);
+                nbttagcompound1.setString(commandobjectiveexecutor_a.b() + "Name", s);
+                nbttagcompound1.setString(commandobjectiveexecutor_a.b() + "Objective", s1);
             }
         }
 
@@ -85,32 +127,32 @@ public class CommandObjectiveExecutor {
 
     }
 
-    public static void a(CommandObjectiveExecutor commandobjectiveexecutor, EnumCommandResult enumcommandresult, String s, String s1) {
+    public static void a(CommandObjectiveExecutor commandobjectiveexecutor, CommandObjectiveExecutor.a commandobjectiveexecutor_a, String s, String s1) {
         if (s != null && s.length() != 0 && s1 != null && s1.length() != 0) {
             if (commandobjectiveexecutor.c == CommandObjectiveExecutor.b || commandobjectiveexecutor.d == CommandObjectiveExecutor.b) {
                 commandobjectiveexecutor.c = new String[CommandObjectiveExecutor.a];
                 commandobjectiveexecutor.d = new String[CommandObjectiveExecutor.a];
             }
 
-            commandobjectiveexecutor.c[enumcommandresult.a()] = s;
-            commandobjectiveexecutor.d[enumcommandresult.a()] = s1;
+            commandobjectiveexecutor.c[commandobjectiveexecutor_a.a()] = s;
+            commandobjectiveexecutor.d[commandobjectiveexecutor_a.a()] = s1;
         } else {
-            a(commandobjectiveexecutor, enumcommandresult);
+            a(commandobjectiveexecutor, commandobjectiveexecutor_a);
         }
     }
 
-    private static void a(CommandObjectiveExecutor commandobjectiveexecutor, EnumCommandResult enumcommandresult) {
+    private static void a(CommandObjectiveExecutor commandobjectiveexecutor, CommandObjectiveExecutor.a commandobjectiveexecutor_a) {
         if (commandobjectiveexecutor.c != CommandObjectiveExecutor.b && commandobjectiveexecutor.d != CommandObjectiveExecutor.b) {
-            commandobjectiveexecutor.c[enumcommandresult.a()] = null;
-            commandobjectiveexecutor.d[enumcommandresult.a()] = null;
+            commandobjectiveexecutor.c[commandobjectiveexecutor_a.a()] = null;
+            commandobjectiveexecutor.d[commandobjectiveexecutor_a.a()] = null;
             boolean flag = true;
-            EnumCommandResult[] aenumcommandresult = EnumCommandResult.values();
-            int i = aenumcommandresult.length;
+            CommandObjectiveExecutor.a[] acommandobjectiveexecutor_a = CommandObjectiveExecutor.a.values();
+            int i = acommandobjectiveexecutor_a.length;
 
             for (int j = 0; j < i; ++j) {
-                EnumCommandResult enumcommandresult1 = aenumcommandresult[j];
+                CommandObjectiveExecutor.a commandobjectiveexecutor_a1 = acommandobjectiveexecutor_a[j];
 
-                if (commandobjectiveexecutor.c[enumcommandresult1.a()] != null && commandobjectiveexecutor.d[enumcommandresult1.a()] != null) {
+                if (commandobjectiveexecutor.c[commandobjectiveexecutor_a1.a()] != null && commandobjectiveexecutor.d[commandobjectiveexecutor_a1.a()] != null) {
                     flag = false;
                     break;
                 }
@@ -125,14 +167,65 @@ public class CommandObjectiveExecutor {
     }
 
     public void a(CommandObjectiveExecutor commandobjectiveexecutor) {
-        EnumCommandResult[] aenumcommandresult = EnumCommandResult.values();
-        int i = aenumcommandresult.length;
+        CommandObjectiveExecutor.a[] acommandobjectiveexecutor_a = CommandObjectiveExecutor.a.values();
+        int i = acommandobjectiveexecutor_a.length;
 
         for (int j = 0; j < i; ++j) {
-            EnumCommandResult enumcommandresult = aenumcommandresult[j];
+            CommandObjectiveExecutor.a commandobjectiveexecutor_a = acommandobjectiveexecutor_a[j];
 
-            a(this, enumcommandresult, commandobjectiveexecutor.c[enumcommandresult.a()], commandobjectiveexecutor.d[enumcommandresult.a()]);
+            a(this, commandobjectiveexecutor_a, commandobjectiveexecutor.c[commandobjectiveexecutor_a.a()], commandobjectiveexecutor.d[commandobjectiveexecutor_a.a()]);
         }
 
+    }
+
+    public static enum a {
+
+        SUCCESS_COUNT(0, "SuccessCount"), AFFECTED_BLOCKS(1, "AffectedBlocks"), AFFECTED_ENTITIES(2, "AffectedEntities"), AFFECTED_ITEMS(3, "AffectedItems"), QUERY_RESULT(4, "QueryResult");
+
+        final int f;
+        final String g;
+
+        private a(int i, String s) {
+            this.f = i;
+            this.g = s;
+        }
+
+        public int a() {
+            return this.f;
+        }
+
+        public String b() {
+            return this.g;
+        }
+
+        public static String[] c() {
+            String[] astring = new String[values().length];
+            int i = 0;
+            CommandObjectiveExecutor.a[] acommandobjectiveexecutor_a = values();
+            int j = acommandobjectiveexecutor_a.length;
+
+            for (int k = 0; k < j; ++k) {
+                CommandObjectiveExecutor.a commandobjectiveexecutor_a = acommandobjectiveexecutor_a[k];
+
+                astring[i++] = commandobjectiveexecutor_a.b();
+            }
+
+            return astring;
+        }
+
+        public static CommandObjectiveExecutor.a a(String s) {
+            CommandObjectiveExecutor.a[] acommandobjectiveexecutor_a = values();
+            int i = acommandobjectiveexecutor_a.length;
+
+            for (int j = 0; j < i; ++j) {
+                CommandObjectiveExecutor.a commandobjectiveexecutor_a = acommandobjectiveexecutor_a[j];
+
+                if (commandobjectiveexecutor_a.b().equals(s)) {
+                    return commandobjectiveexecutor_a;
+                }
+            }
+
+            return null;
+        }
     }
 }

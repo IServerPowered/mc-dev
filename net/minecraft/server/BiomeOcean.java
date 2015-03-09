@@ -9,8 +9,8 @@ public class BiomeOcean extends BiomeBase {
         this.au.clear();
     }
 
-    public EnumTemperature m() {
-        return EnumTemperature.OCEAN;
+    public BiomeBase.b m() {
+        return BiomeBase.b.OCEAN;
     }
 
     public void a(World world, Random random, ChunkSnapshot chunksnapshot, int i, int j, double d0) {

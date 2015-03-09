@@ -2,6 +2,8 @@ package net.minecraft.server;
 
 public class WorldProviderTheEnd extends WorldProvider {
 
+    public WorldProviderTheEnd() {}
+
     public void b() {
         this.c = new WorldChunkManagerHell(BiomeBase.SKY, 0.0F);
         this.dimension = 1;

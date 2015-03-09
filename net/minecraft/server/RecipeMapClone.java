@@ -2,6 +2,8 @@ package net.minecraft.server;
 
 public class RecipeMapClone implements IRecipe {
 
+    public RecipeMapClone() {}
+
     public boolean a(InventoryCrafting inventorycrafting, World world) {
         int i = 0;
         ItemStack itemstack = null;

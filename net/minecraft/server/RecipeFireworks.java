@@ -7,6 +7,8 @@ public class RecipeFireworks implements IRecipe {
 
     private ItemStack a;
 
+    public RecipeFireworks() {}
+
     public boolean a(InventoryCrafting inventorycrafting, World world) {
         this.a = null;
         int i = 0;

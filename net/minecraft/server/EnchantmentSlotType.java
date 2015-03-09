@@ -4,6 +4,8 @@ public enum EnchantmentSlotType {
 
     ALL, ARMOR, ARMOR_FEET, ARMOR_LEGS, ARMOR_TORSO, ARMOR_HEAD, WEAPON, DIGGER, FISHING_ROD, BREAKABLE, BOW;
 
+    private EnchantmentSlotType() {}
+
     public boolean canEnchant(Item item) {
         if (this == EnchantmentSlotType.ALL) {
             return true;

@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public abstract class BlockLogAbstract extends BlockRotatable {
 
-    public static final BlockStateEnum AXIS = BlockStateEnum.of("axis", EnumLogRotation.class);
+    public static final BlockStateEnum<BlockLogAbstract.a> AXIS = BlockStateEnum.of("axis", BlockLogAbstract.a.class);
 
     public BlockLogAbstract() {
         super(Material.WOOD);
@@ -33,6 +33,67 @@ public abstract class BlockLogAbstract extends BlockRotatable {
     }
 
     public IBlockData getPlacedState(World world, BlockPosition blockposition, EnumDirection enumdirection, float f, float f1, float f2, int i, EntityLiving entityliving) {
-        return super.getPlacedState(world, blockposition, enumdirection, f, f1, f2, i, entityliving).set(BlockLogAbstract.AXIS, EnumLogRotation.a(enumdirection.k()));
+        return super.getPlacedState(world, blockposition, enumdirection, f, f1, f2, i, entityliving).set(BlockLogAbstract.AXIS, BlockLogAbstract.a.a(enumdirection.k()));
+    }
+
+    static class SyntheticClass_1 {
+
+        static final int[] a = new int[EnumDirection.a.values().length];
+
+        static {
+            try {
+                BlockLogAbstract.SyntheticClass_1.a[EnumDirection.a.X.ordinal()] = 1;
+            } catch (NoSuchFieldError nosuchfielderror) {
+                ;
+            }
+
+            try {
+                BlockLogAbstract.SyntheticClass_1.a[EnumDirection.a.Y.ordinal()] = 2;
+            } catch (NoSuchFieldError nosuchfielderror1) {
+                ;
+            }
+
+            try {
+                BlockLogAbstract.SyntheticClass_1.a[EnumDirection.a.Z.ordinal()] = 3;
+            } catch (NoSuchFieldError nosuchfielderror2) {
+                ;
+            }
+
+        }
+    }
+
+    public static enum a implements INamable {
+
+        X("x"), Y("y"), Z("z"), NONE("none");
+
+        private final String e;
+
+        private a(String s) {
+            this.e = s;
+        }
+
+        public String toString() {
+            return this.e;
+        }
+
+        public static BlockLogAbstract.a a(EnumDirection.a enumdirection_a) {
+            switch (BlockLogAbstract.SyntheticClass_1.a[enumdirection_a.ordinal()]) {
+            case 1:
+                return BlockLogAbstract.a.X;
+
+            case 2:
+                return BlockLogAbstract.a.Y;
+
+            case 3:
+                return BlockLogAbstract.a.Z;
+
+            default:
+                return BlockLogAbstract.a.NONE;
+            }
+        }
+
+        public String getName() {
+            return this.e;
+        }
     }
 }

@@ -8,8 +8,8 @@ import java.util.Map.Entry;
 public class RecipesFurnace {
 
     private static final RecipesFurnace a = new RecipesFurnace();
-    private Map recipes = Maps.newHashMap();
-    private Map c = Maps.newHashMap();
+    private Map<ItemStack, ItemStack> recipes = Maps.newHashMap();
+    private Map<ItemStack, Float> c = Maps.newHashMap();
 
     public static RecipesFurnace getInstance() {
         return RecipesFurnace.a;
@@ -26,7 +26,7 @@ public class RecipesFurnace {
         this.a(Items.RABBIT, new ItemStack(Items.COOKED_RABBIT), 0.35F);
         this.a(Items.MUTTON, new ItemStack(Items.COOKED_MUTTON), 0.35F);
         this.registerRecipe(Blocks.COBBLESTONE, new ItemStack(Blocks.STONE), 0.1F);
-        this.a(new ItemStack(Blocks.STONEBRICK, 1, BlockSmoothBrick.b), new ItemStack(Blocks.STONEBRICK, 1, BlockSmoothBrick.N), 0.1F);
+        this.a(new ItemStack(Blocks.STONEBRICK, 1, BlockSmoothBrick.b), new ItemStack(Blocks.STONEBRICK, 1, BlockSmoothBrick.O), 0.1F);
         this.a(Items.CLAY_BALL, new ItemStack(Items.BRICK), 0.3F);
         this.registerRecipe(Blocks.CLAY, new ItemStack(Blocks.HARDENED_CLAY), 0.35F);
         this.registerRecipe(Blocks.CACTUS, new ItemStack(Items.DYE, 1, EnumColor.GREEN.getInvColorIndex()), 0.2F);
@@ -36,14 +36,14 @@ public class RecipesFurnace {
         this.a(Items.POTATO, new ItemStack(Items.BAKED_POTATO), 0.35F);
         this.registerRecipe(Blocks.NETHERRACK, new ItemStack(Items.NETHERBRICK), 0.1F);
         this.a(new ItemStack(Blocks.SPONGE, 1, 1), new ItemStack(Blocks.SPONGE, 1, 0), 0.15F);
-        EnumFish[] aenumfish = EnumFish.values();
-        int i = aenumfish.length;
+        ItemFish.a[] aitemfish_a = ItemFish.a.values();
+        int i = aitemfish_a.length;
 
         for (int j = 0; j < i; ++j) {
-            EnumFish enumfish = aenumfish[j];
+            ItemFish.a itemfish_a = aitemfish_a[j];
 
-            if (enumfish.g()) {
-                this.a(new ItemStack(Items.FISH, 1, enumfish.a()), new ItemStack(Items.COOKED_FISH, 1, enumfish.a()), 0.35F);
+            if (itemfish_a.g()) {
+                this.a(new ItemStack(Items.FISH, 1, itemfish_a.a()), new ItemStack(Items.COOKED_FISH, 1, itemfish_a.a()), 0.35F);
             }
         }
 
@@ -86,7 +86,7 @@ public class RecipesFurnace {
         return itemstack1.getItem() == itemstack.getItem() && (itemstack1.getData() == 32767 || itemstack1.getData() == itemstack.getData());
     }
 
-    public Map getRecipes() {
+    public Map<ItemStack, ItemStack> getRecipes() {
         return this.recipes;
     }
 

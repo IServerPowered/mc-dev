@@ -9,10 +9,10 @@ public class WorldGenMineshaftStart extends StructureStart {
 
     public WorldGenMineshaftStart(World world, Random random, int i, int j) {
         super(i, j);
-        WorldGenMineshaftRoom worldgenmineshaftroom = new WorldGenMineshaftRoom(0, random, (i << 4) + 2, (j << 4) + 2);
+        WorldGenMineshaftPieces.c worldgenmineshaftpieces_c = new WorldGenMineshaftPieces.c(0, random, (i << 4) + 2, (j << 4) + 2);
 
-        this.a.add(worldgenmineshaftroom);
-        worldgenmineshaftroom.a((StructurePiece) worldgenmineshaftroom, (List) this.a, random);
+        this.a.add(worldgenmineshaftpieces_c);
+        worldgenmineshaftpieces_c.a((StructurePiece) worldgenmineshaftpieces_c, (List) this.a, random);
         this.c();
         this.a(world, random, 10);
     }

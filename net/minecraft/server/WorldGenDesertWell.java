@@ -6,13 +6,13 @@ import java.util.Random;
 
 public class WorldGenDesertWell extends WorldGenerator {
 
-    private static final BlockStatePredicate a = BlockStatePredicate.a((Block) Blocks.SAND).a(BlockSand.VARIANT, Predicates.equalTo(EnumSandVariant.SAND));
+    private static final BlockStatePredicate a = BlockStatePredicate.a((Block) Blocks.SAND).a(BlockSand.VARIANT, Predicates.equalTo(BlockSand.a.SAND));
     private final IBlockData b;
     private final IBlockData c;
     private final IBlockData d;
 
     public WorldGenDesertWell() {
-        this.b = Blocks.STONE_SLAB.getBlockData().set(BlockDoubleStepAbstract.VARIANT, EnumStoneSlabVariant.SAND).set(BlockStepAbstract.HALF, EnumSlabHalf.BOTTOM);
+        this.b = Blocks.STONE_SLAB.getBlockData().set(BlockDoubleStepAbstract.VARIANT, BlockDoubleStepAbstract.a.SAND).set(BlockStepAbstract.HALF, BlockStepAbstract.a.BOTTOM);
         this.c = Blocks.SANDSTONE.getBlockData();
         this.d = Blocks.FLOWING_WATER.getBlockData();
     }
@@ -45,7 +45,7 @@ public class WorldGenDesertWell extends WorldGenerator {
             }
 
             world.setTypeAndData(blockposition, this.d, 2);
-            Iterator iterator = EnumDirectionLimit.HORIZONTAL.iterator();
+            Iterator iterator = EnumDirection.c.HORIZONTAL.iterator();
 
             while (iterator.hasNext()) {
                 EnumDirection enumdirection = (EnumDirection) iterator.next();

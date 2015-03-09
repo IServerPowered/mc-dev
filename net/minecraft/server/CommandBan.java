@@ -6,6 +6,8 @@ import java.util.List;
 
 public class CommandBan extends CommandAbstract {
 
+    public CommandBan() {}
+
     public String getCommand() {
         return "ban";
     }
@@ -22,7 +24,7 @@ public class CommandBan extends CommandAbstract {
         return MinecraftServer.getServer().getPlayerList().getProfileBans().isEnabled() && super.canUse(icommandlistener);
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length >= 1 && astring[0].length() > 0) {
             MinecraftServer minecraftserver = MinecraftServer.getServer();
             GameProfile gameprofile = minecraftserver.getUserCache().getProfile(astring[0]);
@@ -52,7 +54,7 @@ public class CommandBan extends CommandAbstract {
         }
     }
 
-    public List tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
+    public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
         return astring.length >= 1 ? a(astring, MinecraftServer.getServer().getPlayers()) : null;
     }
 }

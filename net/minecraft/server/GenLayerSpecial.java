@@ -2,16 +2,16 @@ package net.minecraft.server;
 
 public class GenLayerSpecial extends GenLayer {
 
-    private final EnumGenLayerSpecial c;
+    private final GenLayerSpecial.a c;
 
-    public GenLayerSpecial(long i, GenLayer genlayer, EnumGenLayerSpecial enumgenlayerspecial) {
+    public GenLayerSpecial(long i, GenLayer genlayer, GenLayerSpecial.a genlayerspecial_a) {
         super(i);
         this.a = genlayer;
-        this.c = enumgenlayerspecial;
+        this.c = genlayerspecial_a;
     }
 
     public int[] a(int i, int j, int k, int l) {
-        switch (GenLayerJumpTable.a[this.c.ordinal()]) {
+        switch (GenLayerSpecial.SyntheticClass_1.a[this.c.ordinal()]) {
         case 1:
         default:
             return this.c(i, j, k, l);
@@ -107,5 +107,38 @@ public class GenLayerSpecial extends GenLayer {
         }
 
         return aint1;
+    }
+
+    static class SyntheticClass_1 {
+
+        static final int[] a = new int[GenLayerSpecial.a.values().length];
+
+        static {
+            try {
+                GenLayerSpecial.SyntheticClass_1.a[GenLayerSpecial.a.COOL_WARM.ordinal()] = 1;
+            } catch (NoSuchFieldError nosuchfielderror) {
+                ;
+            }
+
+            try {
+                GenLayerSpecial.SyntheticClass_1.a[GenLayerSpecial.a.HEAT_ICE.ordinal()] = 2;
+            } catch (NoSuchFieldError nosuchfielderror1) {
+                ;
+            }
+
+            try {
+                GenLayerSpecial.SyntheticClass_1.a[GenLayerSpecial.a.SPECIAL.ordinal()] = 3;
+            } catch (NoSuchFieldError nosuchfielderror2) {
+                ;
+            }
+
+        }
+    }
+
+    public static enum a {
+
+        COOL_WARM, HEAT_ICE, SPECIAL;
+
+        private a() {}
     }
 }

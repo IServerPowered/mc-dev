@@ -7,13 +7,13 @@ public class WorldGenFlowers extends WorldGenerator {
     private BlockFlowers a;
     private IBlockData b;
 
-    public WorldGenFlowers(BlockFlowers blockflowers, EnumFlowerVarient enumflowervarient) {
-        this.a(blockflowers, enumflowervarient);
+    public WorldGenFlowers(BlockFlowers blockflowers, BlockFlowers.a blockflowers_a) {
+        this.a(blockflowers, blockflowers_a);
     }
 
-    public void a(BlockFlowers blockflowers, EnumFlowerVarient enumflowervarient) {
+    public void a(BlockFlowers blockflowers, BlockFlowers.a blockflowers_a) {
         this.a = blockflowers;
-        this.b = blockflowers.getBlockData().set(blockflowers.l(), enumflowervarient);
+        this.b = blockflowers.getBlockData().set(blockflowers.n(), blockflowers_a);
     }
 
     public boolean generate(World world, Random random, BlockPosition blockposition) {

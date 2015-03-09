@@ -1,49 +1,50 @@
 package net.minecraft.server;
 
+import java.io.IOException;
 import java.util.List;
 
-public class PacketPlayOutMapChunkBulk implements Packet {
+public class PacketPlayOutMapChunkBulk implements Packet<PacketListenerPlayOut> {
 
     private int[] a;
     private int[] b;
-    private ChunkMap[] c;
+    private PacketPlayOutMapChunk.a[] c;
     private boolean d;
 
     public PacketPlayOutMapChunkBulk() {}
 
-    public PacketPlayOutMapChunkBulk(List list) {
+    public PacketPlayOutMapChunkBulk(List<Chunk> list) {
         int i = list.size();
 
         this.a = new int[i];
         this.b = new int[i];
-        this.c = new ChunkMap[i];
+        this.c = new PacketPlayOutMapChunk.a[i];
         this.d = !((Chunk) list.get(0)).getWorld().worldProvider.o();
 
         for (int j = 0; j < i; ++j) {
             Chunk chunk = (Chunk) list.get(j);
-            ChunkMap chunkmap = PacketPlayOutMapChunk.a(chunk, true, this.d, '\uffff');
+            PacketPlayOutMapChunk.a packetplayoutmapchunk_a = PacketPlayOutMapChunk.a(chunk, true, this.d, '\uffff');
 
             this.a[j] = chunk.locX;
             this.b[j] = chunk.locZ;
-            this.c[j] = chunkmap;
+            this.c[j] = packetplayoutmapchunk_a;
         }
 
     }
 
-    public void a(PacketDataSerializer packetdataserializer) {
+    public void a(PacketDataSerializer packetdataserializer) throws IOException {
         this.d = packetdataserializer.readBoolean();
         int i = packetdataserializer.e();
 
         this.a = new int[i];
         this.b = new int[i];
-        this.c = new ChunkMap[i];
+        this.c = new PacketPlayOutMapChunk.a[i];
 
         int j;
 
         for (j = 0; j < i; ++j) {
             this.a[j] = packetdataserializer.readInt();
             this.b[j] = packetdataserializer.readInt();
-            this.c[j] = new ChunkMap();
+            this.c[j] = new PacketPlayOutMapChunk.a();
             this.c[j].b = packetdataserializer.readShort() & '\uffff';
             this.c[j].a = new byte[PacketPlayOutMapChunk.a(Integer.bitCount(this.c[j].b), this.d, true)];
         }
@@ -54,7 +55,7 @@ public class PacketPlayOutMapChunkBulk implements Packet {
 
     }
 
-    public void b(PacketDataSerializer packetdataserializer) {
+    public void b(PacketDataSerializer packetdataserializer) throws IOException {
         packetdataserializer.writeBoolean(this.d);
         packetdataserializer.b(this.c.length);
 
@@ -74,5 +75,9 @@ public class PacketPlayOutMapChunkBulk implements Packet {
 
     public void a(PacketListenerPlayOut packetlistenerplayout) {
         packetlistenerplayout.a(this);
+    }
+
+    public void a(PacketListener packetlistener) {
+        this.a((PacketListenerPlayOut) packetlistener);
     }
 }

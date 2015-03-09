@@ -6,6 +6,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class CommandTellRaw extends CommandAbstract {
 
+    public CommandTellRaw() {}
+
     public String getCommand() {
         return "tellraw";
     }
@@ -18,7 +20,7 @@ public class CommandTellRaw extends CommandAbstract {
         return "commands.tellraw.usage";
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 2) {
             throw new ExceptionUsage("commands.tellraw.usage", new Object[0]);
         } else {
@@ -26,7 +28,7 @@ public class CommandTellRaw extends CommandAbstract {
             String s = a(astring, 1);
 
             try {
-                IChatBaseComponent ichatbasecomponent = ChatSerializer.a(s);
+                IChatBaseComponent ichatbasecomponent = IChatBaseComponent.a.a(s);
 
                 entityplayer.sendMessage(ChatComponentUtils.filterForDisplay(icommandlistener, ichatbasecomponent, entityplayer));
             } catch (JsonParseException jsonparseexception) {
@@ -37,7 +39,7 @@ public class CommandTellRaw extends CommandAbstract {
         }
     }
 
-    public List tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
+    public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
         return astring.length == 1 ? a(astring, MinecraftServer.getServer().getPlayers()) : null;
     }
 

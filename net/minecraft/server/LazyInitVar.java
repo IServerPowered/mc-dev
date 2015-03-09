@@ -1,11 +1,13 @@
 package net.minecraft.server;
 
-public abstract class LazyInitVar {
+public abstract class LazyInitVar<T> {
 
-    private Object a;
+    private T a;
     private boolean b = false;
 
-    public Object c() {
+    public LazyInitVar() {}
+
+    public T c() {
         if (!this.b) {
             this.b = true;
             this.a = this.init();
@@ -14,5 +16,5 @@ public abstract class LazyInitVar {
         return this.a;
     }
 
-    protected abstract Object init();
+    protected abstract T init();
 }

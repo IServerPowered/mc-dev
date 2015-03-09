@@ -10,6 +10,8 @@ public class PlayerAbilities {
     private float flySpeed = 0.05F;
     private float walkSpeed = 0.1F;
 
+    public PlayerAbilities() {}
+
     public void a(NBTTagCompound nbttagcompound) {
         NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 

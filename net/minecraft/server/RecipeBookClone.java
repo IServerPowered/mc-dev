@@ -2,6 +2,8 @@ package net.minecraft.server;
 
 public class RecipeBookClone implements IRecipe {
 
+    public RecipeBookClone() {}
+
     public boolean a(InventoryCrafting inventorycrafting, World world) {
         int i = 0;
         ItemStack itemstack = null;

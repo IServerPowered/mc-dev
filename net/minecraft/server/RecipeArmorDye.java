@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class RecipeArmorDye implements IRecipe {
 
+    public RecipeArmorDye() {}
+
     public boolean a(InventoryCrafting inventorycrafting, World world) {
         ItemStack itemstack = null;
         ArrayList arraylist = Lists.newArrayList();
@@ -16,7 +18,7 @@ public class RecipeArmorDye implements IRecipe {
                 if (itemstack1.getItem() instanceof ItemArmor) {
                     ItemArmor itemarmor = (ItemArmor) itemstack1.getItem();
 
-                    if (itemarmor.w_() != EnumArmorMaterial.LEATHER || itemstack != null) {
+                    if (itemarmor.x_() != ItemArmor.a.LEATHER || itemstack != null) {
                         return false;
                     }
 
@@ -53,7 +55,7 @@ public class RecipeArmorDye implements IRecipe {
             if (itemstack1 != null) {
                 if (itemstack1.getItem() instanceof ItemArmor) {
                     itemarmor = (ItemArmor) itemstack1.getItem();
-                    if (itemarmor.w_() != EnumArmorMaterial.LEATHER || itemstack != null) {
+                    if (itemarmor.x_() != ItemArmor.a.LEATHER || itemstack != null) {
                         return null;
                     }
 

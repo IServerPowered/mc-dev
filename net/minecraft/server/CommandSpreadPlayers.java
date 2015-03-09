@@ -12,6 +12,8 @@ import java.util.Random;
 
 public class CommandSpreadPlayers extends CommandAbstract {
 
+    public CommandSpreadPlayers() {}
+
     public String getCommand() {
         return "spreadplayers";
     }
@@ -24,7 +26,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
         return "commands.spreadplayers.usage";
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length < 6) {
             throw new ExceptionUsage("commands.spreadplayers.usage", new Object[0]);
         } else {
@@ -61,34 +63,34 @@ public class CommandSpreadPlayers extends CommandAbstract {
                 }
             }
 
-            icommandlistener.a(EnumCommandResult.AFFECTED_ENTITIES, arraylist.size());
+            icommandlistener.a(CommandObjectiveExecutor.a.AFFECTED_ENTITIES, arraylist.size());
             if (arraylist.isEmpty()) {
                 throw new ExceptionEntityNotFound();
             } else {
                 icommandlistener.sendMessage(new ChatMessage("commands.spreadplayers.spreading." + (flag ? "teams" : "players"), new Object[] { Integer.valueOf(arraylist.size()), Double.valueOf(d4), Double.valueOf(d1), Double.valueOf(d2), Double.valueOf(d3)}));
-                this.a(icommandlistener, arraylist, new Location2D(d1, d2), d3, d4, ((Entity) arraylist.get(0)).world, flag);
+                this.a(icommandlistener, arraylist, new CommandSpreadPlayers.a(d1, d2), d3, d4, ((Entity) arraylist.get(0)).world, flag);
             }
         }
     }
 
-    private void a(ICommandListener icommandlistener, List list, Location2D location2d, double d0, double d1, World world, boolean flag) {
+    private void a(ICommandListener icommandlistener, List<Entity> list, CommandSpreadPlayers.a commandspreadplayers_a, double d0, double d1, World world, boolean flag) throws CommandException {
         Random random = new Random();
-        double d2 = location2d.a - d1;
-        double d3 = location2d.b - d1;
-        double d4 = location2d.a + d1;
-        double d5 = location2d.b + d1;
-        Location2D[] alocation2d = this.a(random, flag ? this.b(list) : list.size(), d2, d3, d4, d5);
-        int i = this.a(location2d, d0, world, random, d2, d3, d4, d5, alocation2d, flag);
-        double d6 = this.a(list, world, alocation2d, flag);
+        double d2 = commandspreadplayers_a.a - d1;
+        double d3 = commandspreadplayers_a.b - d1;
+        double d4 = commandspreadplayers_a.a + d1;
+        double d5 = commandspreadplayers_a.b + d1;
+        CommandSpreadPlayers.a[] acommandspreadplayers_a = this.a(random, flag ? this.b(list) : list.size(), d2, d3, d4, d5);
+        int i = this.a(commandspreadplayers_a, d0, world, random, d2, d3, d4, d5, acommandspreadplayers_a, flag);
+        double d6 = this.a(list, world, acommandspreadplayers_a, flag);
 
-        a(icommandlistener, this, "commands.spreadplayers.success." + (flag ? "teams" : "players"), new Object[] { Integer.valueOf(alocation2d.length), Double.valueOf(location2d.a), Double.valueOf(location2d.b)});
-        if (alocation2d.length > 1) {
+        a(icommandlistener, this, "commands.spreadplayers.success." + (flag ? "teams" : "players"), new Object[] { Integer.valueOf(acommandspreadplayers_a.length), Double.valueOf(commandspreadplayers_a.a), Double.valueOf(commandspreadplayers_a.b)});
+        if (acommandspreadplayers_a.length > 1) {
             icommandlistener.sendMessage(new ChatMessage("commands.spreadplayers.info." + (flag ? "teams" : "players"), new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d6)}), Integer.valueOf(i)}));
         }
 
     }
 
-    private int b(List list) {
+    private int b(List<Entity> list) {
         HashSet hashset = Sets.newHashSet();
         Iterator iterator = list.iterator();
 
@@ -105,7 +107,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
         return hashset.size();
     }
 
-    private int a(Location2D location2d, double d0, World world, Random random, double d1, double d2, double d3, double d4, Location2D[] alocation2d, boolean flag) {
+    private int a(CommandSpreadPlayers.a commandspreadplayers_a, double d0, World world, Random random, double d1, double d2, double d3, double d4, CommandSpreadPlayers.a[] acommandspreadplayers_a, boolean flag) throws CommandException {
         boolean flag1 = true;
         double d5 = 3.4028234663852886E38D;
 
@@ -116,56 +118,56 @@ public class CommandSpreadPlayers extends CommandAbstract {
             d5 = 3.4028234663852886E38D;
 
             int j;
-            Location2D location2d1;
+            CommandSpreadPlayers.a commandspreadplayers_a1;
 
-            for (int k = 0; k < alocation2d.length; ++k) {
-                Location2D location2d2 = alocation2d[k];
+            for (int k = 0; k < acommandspreadplayers_a.length; ++k) {
+                CommandSpreadPlayers.a commandspreadplayers_a2 = acommandspreadplayers_a[k];
 
                 j = 0;
-                location2d1 = new Location2D();
+                commandspreadplayers_a1 = new CommandSpreadPlayers.a();
 
-                for (int l = 0; l < alocation2d.length; ++l) {
+                for (int l = 0; l < acommandspreadplayers_a.length; ++l) {
                     if (k != l) {
-                        Location2D location2d3 = alocation2d[l];
-                        double d6 = location2d2.a(location2d3);
+                        CommandSpreadPlayers.a commandspreadplayers_a3 = acommandspreadplayers_a[l];
+                        double d6 = commandspreadplayers_a2.a(commandspreadplayers_a3);
 
                         d5 = Math.min(d6, d5);
                         if (d6 < d0) {
                             ++j;
-                            location2d1.a += location2d3.a - location2d2.a;
-                            location2d1.b += location2d3.b - location2d2.b;
+                            commandspreadplayers_a1.a += commandspreadplayers_a3.a - commandspreadplayers_a2.a;
+                            commandspreadplayers_a1.b += commandspreadplayers_a3.b - commandspreadplayers_a2.b;
                         }
                     }
                 }
 
                 if (j > 0) {
-                    location2d1.a /= (double) j;
-                    location2d1.b /= (double) j;
-                    double d7 = (double) location2d1.b();
+                    commandspreadplayers_a1.a /= (double) j;
+                    commandspreadplayers_a1.b /= (double) j;
+                    double d7 = (double) commandspreadplayers_a1.b();
 
                     if (d7 > 0.0D) {
-                        location2d1.a();
-                        location2d2.b(location2d1);
+                        commandspreadplayers_a1.a();
+                        commandspreadplayers_a2.b(commandspreadplayers_a1);
                     } else {
-                        location2d2.a(random, d1, d2, d3, d4);
+                        commandspreadplayers_a2.a(random, d1, d2, d3, d4);
                     }
 
                     flag1 = true;
                 }
 
-                if (location2d2.a(d1, d2, d3, d4)) {
+                if (commandspreadplayers_a2.a(d1, d2, d3, d4)) {
                     flag1 = true;
                 }
             }
 
             if (!flag1) {
-                Location2D[] alocation2d1 = alocation2d;
-                int i1 = alocation2d.length;
+                CommandSpreadPlayers.a[] acommandspreadplayers_a1 = acommandspreadplayers_a;
+                int i1 = acommandspreadplayers_a.length;
 
                 for (j = 0; j < i1; ++j) {
-                    location2d1 = alocation2d1[j];
-                    if (!location2d1.b(world)) {
-                        location2d1.a(random, d1, d2, d3, d4);
+                    commandspreadplayers_a1 = acommandspreadplayers_a1[j];
+                    if (!commandspreadplayers_a1.b(world)) {
+                        commandspreadplayers_a1.a(random, d1, d2, d3, d4);
                         flag1 = true;
                     }
                 }
@@ -173,39 +175,39 @@ public class CommandSpreadPlayers extends CommandAbstract {
         }
 
         if (i >= 10000) {
-            throw new CommandException("commands.spreadplayers.failure." + (flag ? "teams" : "players"), new Object[] { Integer.valueOf(alocation2d.length), Double.valueOf(location2d.a), Double.valueOf(location2d.b), String.format("%.2f", new Object[] { Double.valueOf(d5)})});
+            throw new CommandException("commands.spreadplayers.failure." + (flag ? "teams" : "players"), new Object[] { Integer.valueOf(acommandspreadplayers_a.length), Double.valueOf(commandspreadplayers_a.a), Double.valueOf(commandspreadplayers_a.b), String.format("%.2f", new Object[] { Double.valueOf(d5)})});
         } else {
             return i;
         }
     }
 
-    private double a(List list, World world, Location2D[] alocation2d, boolean flag) {
+    private double a(List<Entity> list, World world, CommandSpreadPlayers.a[] acommandspreadplayers_a, boolean flag) {
         double d0 = 0.0D;
         int i = 0;
         HashMap hashmap = Maps.newHashMap();
 
         for (int j = 0; j < list.size(); ++j) {
             Entity entity = (Entity) list.get(j);
-            Location2D location2d;
+            CommandSpreadPlayers.a commandspreadplayers_a;
 
             if (flag) {
                 ScoreboardTeamBase scoreboardteambase = entity instanceof EntityHuman ? ((EntityHuman) entity).getScoreboardTeam() : null;
 
                 if (!hashmap.containsKey(scoreboardteambase)) {
-                    hashmap.put(scoreboardteambase, alocation2d[i++]);
+                    hashmap.put(scoreboardteambase, acommandspreadplayers_a[i++]);
                 }
 
-                location2d = (Location2D) hashmap.get(scoreboardteambase);
+                commandspreadplayers_a = (CommandSpreadPlayers.a) hashmap.get(scoreboardteambase);
             } else {
-                location2d = alocation2d[i++];
+                commandspreadplayers_a = acommandspreadplayers_a[i++];
             }
 
-            entity.enderTeleportTo((double) ((float) MathHelper.floor(location2d.a) + 0.5F), (double) location2d.a(world), (double) MathHelper.floor(location2d.b) + 0.5D);
+            entity.enderTeleportTo((double) ((float) MathHelper.floor(commandspreadplayers_a.a) + 0.5F), (double) commandspreadplayers_a.a(world), (double) MathHelper.floor(commandspreadplayers_a.b) + 0.5D);
             double d1 = Double.MAX_VALUE;
 
-            for (int k = 0; k < alocation2d.length; ++k) {
-                if (location2d != alocation2d[k]) {
-                    double d2 = location2d.a(alocation2d[k]);
+            for (int k = 0; k < acommandspreadplayers_a.length; ++k) {
+                if (commandspreadplayers_a != acommandspreadplayers_a[k]) {
+                    double d2 = commandspreadplayers_a.a(acommandspreadplayers_a[k]);
 
                     d1 = Math.min(d2, d1);
                 }
@@ -218,16 +220,114 @@ public class CommandSpreadPlayers extends CommandAbstract {
         return d0;
     }
 
-    private Location2D[] a(Random random, int i, double d0, double d1, double d2, double d3) {
-        Location2D[] alocation2d = new Location2D[i];
+    private CommandSpreadPlayers.a[] a(Random random, int i, double d0, double d1, double d2, double d3) {
+        CommandSpreadPlayers.a[] acommandspreadplayers_a = new CommandSpreadPlayers.a[i];
 
-        for (int j = 0; j < alocation2d.length; ++j) {
-            Location2D location2d = new Location2D();
+        for (int j = 0; j < acommandspreadplayers_a.length; ++j) {
+            CommandSpreadPlayers.a commandspreadplayers_a = new CommandSpreadPlayers.a();
 
-            location2d.a(random, d0, d1, d2, d3);
-            alocation2d[j] = location2d;
+            commandspreadplayers_a.a(random, d0, d1, d2, d3);
+            acommandspreadplayers_a[j] = commandspreadplayers_a;
         }
 
-        return alocation2d;
+        return acommandspreadplayers_a;
+    }
+
+    public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
+        return astring.length >= 1 && astring.length <= 2 ? b(astring, 0, blockposition) : null;
+    }
+
+    static class a {
+
+        double a;
+        double b;
+
+        a() {}
+
+        a(double d0, double d1) {
+            this.a = d0;
+            this.b = d1;
+        }
+
+        double a(CommandSpreadPlayers.a commandspreadplayers_a) {
+            double d0 = this.a - commandspreadplayers_a.a;
+            double d1 = this.b - commandspreadplayers_a.b;
+
+            return Math.sqrt(d0 * d0 + d1 * d1);
+        }
+
+        void a() {
+            double d0 = (double) this.b();
+
+            this.a /= d0;
+            this.b /= d0;
+        }
+
+        float b() {
+            return MathHelper.sqrt(this.a * this.a + this.b * this.b);
+        }
+
+        public void b(CommandSpreadPlayers.a commandspreadplayers_a) {
+            this.a -= commandspreadplayers_a.a;
+            this.b -= commandspreadplayers_a.b;
+        }
+
+        public boolean a(double d0, double d1, double d2, double d3) {
+            boolean flag = false;
+
+            if (this.a < d0) {
+                this.a = d0;
+                flag = true;
+            } else if (this.a > d2) {
+                this.a = d2;
+                flag = true;
+            }
+
+            if (this.b < d1) {
+                this.b = d1;
+                flag = true;
+            } else if (this.b > d3) {
+                this.b = d3;
+                flag = true;
+            }
+
+            return flag;
+        }
+
+        public int a(World world) {
+            BlockPosition blockposition = new BlockPosition(this.a, 256.0D, this.b);
+
+            do {
+                if (blockposition.getY() <= 0) {
+                    return 257;
+                }
+
+                blockposition = blockposition.down();
+            } while (world.getType(blockposition).getBlock().getMaterial() == Material.AIR);
+
+            return blockposition.getY() + 1;
+        }
+
+        public boolean b(World world) {
+            BlockPosition blockposition = new BlockPosition(this.a, 256.0D, this.b);
+
+            Material material;
+
+            do {
+                if (blockposition.getY() <= 0) {
+                    return false;
+                }
+
+                blockposition = blockposition.down();
+                material = world.getType(blockposition).getBlock().getMaterial();
+            } while (material == Material.AIR);
+
+            return !material.isLiquid() && material != Material.FIRE;
+        }
+
+        public void a(Random random, double d0, double d1, double d2, double d3) {
+            this.a = MathHelper.a(random, d0, d2);
+            this.b = MathHelper.a(random, d1, d3);
+        }
     }
 }

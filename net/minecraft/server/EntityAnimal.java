@@ -3,8 +3,8 @@ package net.minecraft.server;
 public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
 
     protected Block persistent;
-    private int bk;
-    private EntityHuman bm;
+    private int bm;
+    private EntityHuman bo;
 
     public EntityAnimal(World world) {
         super(world);
@@ -13,7 +13,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
 
     protected void E() {
         if (this.getAge() != 0) {
-            this.bk = 0;
+            this.bm = 0;
         }
 
         super.E();
@@ -22,12 +22,12 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
     public void recalcPosition() {
         super.recalcPosition();
         if (this.getAge() != 0) {
-            this.bk = 0;
+            this.bm = 0;
         }
 
-        if (this.bk > 0) {
-            --this.bk;
-            if (this.bk % 10 == 0) {
+        if (this.bm > 0) {
+            --this.bm;
+            if (this.bm % 10 == 0) {
                 double d0 = this.random.nextGaussian() * 0.02D;
                 double d1 = this.random.nextGaussian() * 0.02D;
                 double d2 = this.random.nextGaussian() * 0.02D;
@@ -42,7 +42,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
         if (this.isInvulnerable(damagesource)) {
             return false;
         } else {
-            this.bk = 0;
+            this.bm = 0;
             return super.damageEntity(damagesource, f);
         }
     }
@@ -53,21 +53,21 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
 
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
-        nbttagcompound.setInt("InLove", this.bk);
+        nbttagcompound.setInt("InLove", this.bm);
     }
 
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
-        this.bk = nbttagcompound.getInt("InLove");
+        this.bm = nbttagcompound.getInt("InLove");
     }
 
-    public boolean bQ() {
+    public boolean bR() {
         int i = MathHelper.floor(this.locX);
         int j = MathHelper.floor(this.getBoundingBox().b);
         int k = MathHelper.floor(this.locZ);
         BlockPosition blockposition = new BlockPosition(i, j, k);
 
-        return this.world.getType(blockposition.down()).getBlock() == this.persistent && this.world.k(blockposition) > 8 && super.bQ();
+        return this.world.getType(blockposition.down()).getBlock() == this.persistent && this.world.k(blockposition) > 8 && super.bR();
     }
 
     public int w() {
@@ -90,7 +90,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
         ItemStack itemstack = entityhuman.inventory.getItemInHand();
 
         if (itemstack != null) {
-            if (this.d(itemstack) && this.getAge() == 0 && this.bk <= 0) {
+            if (this.d(itemstack) && this.getAge() == 0 && this.bm <= 0) {
                 this.a(entityhuman, itemstack);
                 this.c(entityhuman);
                 return true;
@@ -117,24 +117,24 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
     }
 
     public void c(EntityHuman entityhuman) {
-        this.bk = 600;
-        this.bm = entityhuman;
+        this.bm = 600;
+        this.bo = entityhuman;
         this.world.broadcastEntityEffect(this, (byte) 18);
     }
 
-    public EntityHuman co() {
-        return this.bm;
+    public EntityHuman cq() {
+        return this.bo;
     }
 
-    public boolean cp() {
-        return this.bk > 0;
+    public boolean isInLove() {
+        return this.bm > 0;
     }
 
-    public void cq() {
-        this.bk = 0;
+    public void cs() {
+        this.bm = 0;
     }
 
     public boolean mate(EntityAnimal entityanimal) {
-        return entityanimal == this ? false : (entityanimal.getClass() != this.getClass() ? false : this.cp() && entityanimal.cp());
+        return entityanimal == this ? false : (entityanimal.getClass() != this.getClass() ? false : this.isInLove() && entityanimal.isInLove());
     }
 }

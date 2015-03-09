@@ -10,6 +10,8 @@ public class CommandBanIp extends CommandAbstract {
 
     public static final Pattern a = Pattern.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 
+    public CommandBanIp() {}
+
     public String getCommand() {
         return "ban-ip";
     }
@@ -26,7 +28,7 @@ public class CommandBanIp extends CommandAbstract {
         return "commands.banip.usage";
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         if (astring.length >= 1 && astring[0].length() > 1) {
             IChatBaseComponent ichatbasecomponent = astring.length >= 2 ? a(icommandlistener, astring, 1) : null;
             Matcher matcher = CommandBanIp.a.matcher(astring[0]);
@@ -48,7 +50,7 @@ public class CommandBanIp extends CommandAbstract {
         }
     }
 
-    public List tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
+    public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
         return astring.length == 1 ? a(astring, MinecraftServer.getServer().getPlayers()) : null;
     }
 

@@ -2,6 +2,8 @@ package net.minecraft.server;
 
 public class CommandSaveOff extends CommandAbstract {
 
+    public CommandSaveOff() {}
+
     public String getCommand() {
         return "save-off";
     }
@@ -10,7 +12,7 @@ public class CommandSaveOff extends CommandAbstract {
         return "commands.save-off.usage";
     }
 
-    public void execute(ICommandListener icommandlistener, String[] astring) {
+    public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
         MinecraftServer minecraftserver = MinecraftServer.getServer();
         boolean flag = false;
 

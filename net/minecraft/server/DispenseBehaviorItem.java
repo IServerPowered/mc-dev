@@ -2,6 +2,8 @@ package net.minecraft.server;
 
 public class DispenseBehaviorItem implements IDispenseBehavior {
 
+    public DispenseBehaviorItem() {}
+
     public final ItemStack a(ISourceBlock isourceblock, ItemStack itemstack) {
         ItemStack itemstack1 = this.b(isourceblock, itemstack);
 
@@ -24,7 +26,7 @@ public class DispenseBehaviorItem implements IDispenseBehavior {
         double d1 = iposition.getY();
         double d2 = iposition.getZ();
 
-        if (enumdirection.k() == EnumAxis.Y) {
+        if (enumdirection.k() == EnumDirection.a.Y) {
             d1 -= 0.125D;
         } else {
             d1 -= 0.15625D;

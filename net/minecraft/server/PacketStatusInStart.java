@@ -1,12 +1,20 @@
 package net.minecraft.server;
 
-public class PacketStatusInStart implements Packet {
+import java.io.IOException;
 
-    public void a(PacketDataSerializer packetdataserializer) {}
+public class PacketStatusInStart implements Packet<PacketStatusInListener> {
 
-    public void b(PacketDataSerializer packetdataserializer) {}
+    public PacketStatusInStart() {}
+
+    public void a(PacketDataSerializer packetdataserializer) throws IOException {}
+
+    public void b(PacketDataSerializer packetdataserializer) throws IOException {}
 
     public void a(PacketStatusInListener packetstatusinlistener) {
         packetstatusinlistener.a(this);
+    }
+
+    public void a(PacketListener packetlistener) {
+        this.a((PacketStatusInListener) packetlistener);
     }
 }

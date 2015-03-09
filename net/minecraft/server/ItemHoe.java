@@ -2,12 +2,12 @@ package net.minecraft.server;
 
 public class ItemHoe extends Item {
 
-    protected EnumToolMaterial a;
+    protected Item.a a;
 
-    public ItemHoe(EnumToolMaterial enumtoolmaterial) {
-        this.a = enumtoolmaterial;
+    public ItemHoe(Item.a item_a) {
+        this.a = item_a;
         this.maxStackSize = 1;
-        this.setMaxDurability(enumtoolmaterial.a());
+        this.setMaxDurability(item_a.a());
         this.a(CreativeModeTab.i);
     }
 
@@ -24,12 +24,12 @@ public class ItemHoe extends Item {
                 }
 
                 if (block == Blocks.DIRT) {
-                    switch (SwitchHelperDirtVariant.a[((EnumDirtVariant) iblockdata.get(BlockDirt.VARIANT)).ordinal()]) {
+                    switch (ItemHoe.SyntheticClass_1.a[((BlockDirt.a) iblockdata.get(BlockDirt.VARIANT)).ordinal()]) {
                     case 1:
                         return this.a(itemstack, entityhuman, world, blockposition, Blocks.FARMLAND.getBlockData());
 
                     case 2:
-                        return this.a(itemstack, entityhuman, world, blockposition, Blocks.DIRT.getBlockData().set(BlockDirt.VARIANT, EnumDirtVariant.DIRT));
+                        return this.a(itemstack, entityhuman, world, blockposition, Blocks.DIRT.getBlockData().set(BlockDirt.VARIANT, BlockDirt.a.DIRT));
                     }
                 }
             }
@@ -40,7 +40,7 @@ public class ItemHoe extends Item {
 
     protected boolean a(ItemStack itemstack, EntityHuman entityhuman, World world, BlockPosition blockposition, IBlockData iblockdata) {
         world.makeSound((double) ((float) blockposition.getX() + 0.5F), (double) ((float) blockposition.getY() + 0.5F), (double) ((float) blockposition.getZ() + 0.5F), iblockdata.getBlock().stepSound.getStepSound(), (iblockdata.getBlock().stepSound.getVolume1() + 1.0F) / 2.0F, iblockdata.getBlock().stepSound.getVolume2() * 0.8F);
-        if (world.isStatic) {
+        if (world.isClientSide) {
             return true;
         } else {
             world.setTypeUpdate(blockposition, iblockdata);
@@ -51,5 +51,25 @@ public class ItemHoe extends Item {
 
     public String g() {
         return this.a.toString();
+    }
+
+    static class SyntheticClass_1 {
+
+        static final int[] a = new int[BlockDirt.a.values().length];
+
+        static {
+            try {
+                ItemHoe.SyntheticClass_1.a[BlockDirt.a.DIRT.ordinal()] = 1;
+            } catch (NoSuchFieldError nosuchfielderror) {
+                ;
+            }
+
+            try {
+                ItemHoe.SyntheticClass_1.a[BlockDirt.a.COARSE_DIRT.ordinal()] = 2;
+            } catch (NoSuchFieldError nosuchfielderror1) {
+                ;
+            }
+
+        }
     }
 }

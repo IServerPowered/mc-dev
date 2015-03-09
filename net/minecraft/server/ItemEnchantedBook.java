@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class ItemEnchantedBook extends Item {
 
+    public ItemEnchantedBook() {}
+
     public boolean f_(ItemStack itemstack) {
         return false;
     }

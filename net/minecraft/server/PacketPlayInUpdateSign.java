@@ -1,11 +1,15 @@
 package net.minecraft.server;
 
-public class PacketPlayInUpdateSign implements Packet {
+import java.io.IOException;
+
+public class PacketPlayInUpdateSign implements Packet<PacketListenerPlayIn> {
 
     private BlockPosition a;
     private IChatBaseComponent[] b;
 
-    public void a(PacketDataSerializer packetdataserializer) {
+    public PacketPlayInUpdateSign() {}
+
+    public void a(PacketDataSerializer packetdataserializer) throws IOException {
         this.a = packetdataserializer.c();
         this.b = new IChatBaseComponent[4];
 
@@ -15,7 +19,7 @@ public class PacketPlayInUpdateSign implements Packet {
 
     }
 
-    public void b(PacketDataSerializer packetdataserializer) {
+    public void b(PacketDataSerializer packetdataserializer) throws IOException {
         packetdataserializer.a(this.a);
 
         for (int i = 0; i < 4; ++i) {
@@ -34,5 +38,9 @@ public class PacketPlayInUpdateSign implements Packet {
 
     public IChatBaseComponent[] b() {
         return this.b;
+    }
+
+    public void a(PacketListener packetlistener) {
+        this.a((PacketListenerPlayIn) packetlistener);
     }
 }
